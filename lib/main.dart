@@ -8,6 +8,8 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:process_run/shell.dart';
 import 'package:sqlite3/open.dart';
 import 'package:tablaz/funciones/funciones_load_db.dart';
+import 'package:tablaz/pages/home.dart';
+import 'package:tablaz/ui/encabezado.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:ffi';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -39,10 +41,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Home(title: 'Catastro de Usuarios Home'),
     );
   }
 }
@@ -94,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             children: <Widget>[
+              const Encabezado(),
               const SizedBox(height: 30),
               const Text('Catastro de Usuarios',
                   style: TextStyle(fontSize: 20, color: Colors.white)),
