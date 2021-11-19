@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations
 //Importando las librerias a Utilizar
 //dart:io facilita el trabajo con archivos
-import 'dart:ffi';
 import 'dart:io';
 //dart:convert facilita la conversion de datos
 import 'dart:convert';

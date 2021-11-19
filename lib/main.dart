@@ -235,6 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: MediaQuery.of(context).size.height*0.4,
                       child: Center(child: Column(
                         children: [
+                          const SizedBox(height: 80),
                           Text(mensaje, style: const TextStyle(color: Colors.white, fontSize: 20)),
                           const SizedBox(height: 80),
                           const CircularProgressIndicator()
@@ -620,7 +621,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                           if(carpetaDatosSAP == null){
                           }else{
-                            print(carpetaDatosSAP);
                             var shell = Shell();
                             setState(() {
                               cargando = true;
@@ -628,7 +628,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             });
                             await shell.run('''
                             ${carpetaDatosSAP.substring(0,2)}
-                            CD "${carpetaDatosSAP}"
+                            CD "$carpetaDatosSAP"
                             COPY "$carpetaDatosSAP\\ACCO*.TXT" /y "$carpetaDatosSAP\\ACCOUNT_TABLE.TXT"
                             COPY "$carpetaDatosSAP\\DEV*.TXT" /y "$carpetaDatosSAP\\DEVICE_TABLE.TXT"
                             COPY "$carpetaDatosSAP\\INSTL*.TXT" /y "$carpetaDatosSAP\\INSTLN_TABLE.TXT"

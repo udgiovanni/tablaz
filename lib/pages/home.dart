@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tablaz/pages/procesos_masivos/creacion_tabla_z.dart';
 import 'package:tablaz/ui/encabezado.dart';
 
 class Home extends StatefulWidget {
@@ -19,6 +20,12 @@ class _HomeState extends State<Home> {
   );
   TextStyle titulo2 = const TextStyle(
     fontSize: 16,
+    color: Colors.white,
+  );
+  TextStyle titulo3 = const TextStyle(
+      fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold);
+  TextStyle cuerpo = const TextStyle(
+    fontSize: 14,
     color: Colors.white,
   );
   //Borde Container
@@ -65,21 +72,16 @@ class _HomeState extends State<Home> {
                               size: 50,
                               color: Colors.white,
                             ),
-                            title: const Text(
-                              'Cargar Datos Tabla ACCOUNT  (1)',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            title: Text('Creación Tabla Z', style: titulo3),
                             subtitle: Text(
-                              'Importar Archivo TXT con los datos de la Tabla Account con los datos unificados en un solo archivo\nRuta cargada: $pathAccount',
-                              style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14),
-                            ),
-                            onTap: () async {},
+                                'Ingresa al modulo que automatiza la creación de la Tabla Z',
+                                style: cuerpo),
+                            onTap: () async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreacionTablaZ()));
+                            },
                           )
                         ],
                       ),

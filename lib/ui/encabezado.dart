@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:tablaz/pages/home.dart';
 
 class Encabezado extends StatelessWidget {
   const Encabezado({Key? key}) : super(key: key);
@@ -39,7 +40,14 @@ class Encabezado extends StatelessWidget {
               children: [
                 const SizedBox(width: 20),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Home(
+                                    title: '',
+                                  )));
+                    },
                     child: const Text('Inicio',
                         style: TextStyle(
                             fontFamily: 'Reboto',
@@ -48,7 +56,9 @@ class Encabezado extends StatelessWidget {
                             color: Colors.white))),
                 const SizedBox(width: 20),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showToast('Modulo en Desarrollo', context: context);
+                    },
                     child: const Text('Procesos Masivos',
                         style: TextStyle(
                             fontFamily: 'Reboto',
@@ -56,7 +66,9 @@ class Encabezado extends StatelessWidget {
                             color: Colors.white))),
                 const SizedBox(width: 20),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showToast('Modulo en Desarrollo', context: context);
+                    },
                     child: const Text('Tableros de Control',
                         style: TextStyle(fontSize: 14.0, color: Colors.white))),
                 const SizedBox(width: 20),
