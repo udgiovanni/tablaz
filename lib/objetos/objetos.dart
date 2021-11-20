@@ -247,3 +247,51 @@ class GuardarAccount {
     };
   }
 }
+
+class SpoolVigenciaActual {
+  late String ZZCTACONTR;
+  late String ZZDIRENVIO;
+  late String ZZDIAMEDID;
+  late String ZZLECACTUAL;
+  late String ZZLECANTERI;
+  late String ZZULTCONSUMO;
+  late String ZZCODULTCONS;
+  late String ZZCNSPROMHIST;
+  late String ZZINDINQUILIN;
+  late String ZZMESMORA;
+  late String ZZVLRTER;
+  late String IND_FRADIG;
+  late String ZZTELEFONO;
+  late String ZZCORREO;
+  Map<String, dynamic> toMap() {
+    return {
+      'ZZCTACONTR': ZZCTACONTR,
+      'ZZDIRENVIO': ZZDIRENVIO,
+      'ZZDIAMEDID': ZZDIAMEDID,
+      'ZZLECACTUAL': ZZLECACTUAL,
+      'ZZLECANTERI': ZZLECANTERI,
+      'ZZULTCONSUMO': ZZULTCONSUMO,
+      'ZZCODULTCONS': ZZCODULTCONS,
+      'ZZCNSPROMHIST': ZZCNSPROMHIST,
+      'ZZINDINQUILIN': ZZINDINQUILIN,
+      'ZZMESMORA': ZZMESMORA,
+      'ZZVLRTER': ZZVLRTER,
+      'IND_FRADIG': IND_FRADIG,
+      'ZZTELEFONO': ZZTELEFONO,
+      'ZZCORREO': ZZCORREO
+    };
+  }
+}
+
+class SpoolVigenciasAnteriores {
+  late String ZZCTACONTR;
+  late String ZZULTCONSUMO;
+  late String ZZCODULTCONS;
+  Map<String, dynamic> toMap() {
+    return {
+      'ZZCTACONTR': ZZCTACONTR,
+      'ZZULTCONSUMO': ZZULTCONSUMO,
+      'ZZCODULTCONS': ZZCODULTCONS,
+    };
+  }
+}

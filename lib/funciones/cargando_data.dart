@@ -152,4 +152,40 @@ class FuncionesGeneralesTablaZ {
     medidorData.TPLNR = tryStringCortar(data, 115, 145);
     return medidorData;
   }
+
+  SpoolVigenciaActual dataSpoolActual(String data1) {
+    String data2 = data1.replaceAll('\$', " ");
+    String data3 = data2.replaceAll('"', " ");
+    String data4 = data3.replaceAll("'", ' ');
+    String data = data4.replaceAll(",", ' ');
+    SpoolVigenciaActual v0 = SpoolVigenciaActual();
+    v0.ZZCTACONTR = tryStringCortar(data, 14, 26).trim();
+    v0.ZZDIRENVIO = tryStringCortar(data, 217, 297).trim();
+    v0.ZZDIAMEDID = tryStringCortar(data, 454, 457).trim();
+    v0.ZZLECACTUAL = tryStringCortar(data, 457, 471).trim();
+    v0.ZZLECANTERI = tryStringCortar(data, 471, 485).trim();
+    v0.ZZULTCONSUMO = tryStringCortar(data, 485, 493).trim();
+    v0.ZZCODULTCONS = tryStringCortar(data, 493, 501).trim();
+    v0.ZZCNSPROMHIST = tryStringCortar(data, 641, 649).trim();
+    v0.ZZINDINQUILIN = tryStringCortar(data, 2898, 2899).trim();
+    v0.ZZMESMORA = tryStringCortar(data, 2902, 2905).trim();
+    v0.ZZVLRTER = tryStringCortar(data, 4967, 4985).trim();
+    v0.IND_FRADIG = tryStringCortar(data, 5984, 5985).trim();
+    v0.ZZTELEFONO = tryStringCortar(data, 5985, 6015).trim();
+    v0.ZZCORREO = tryStringCortar(data, 6015, 6256).trim();
+
+    return v0;
+  }
+
+  SpoolVigenciasAnteriores dataSpolAnterior(String data1) {
+    String data2 = data1.replaceAll('\$', " ");
+    String data3 = data2.replaceAll('"', " ");
+    String data4 = data3.replaceAll("'", ' ');
+    String data = data4.replaceAll(",", ' ');
+    SpoolVigenciasAnteriores v1 = SpoolVigenciasAnteriores();
+    v1.ZZCTACONTR = tryStringCortar(data, 14, 26).trim();
+    v1.ZZULTCONSUMO = tryStringCortar(data, 485, 493).trim();
+    v1.ZZCODULTCONS = tryStringCortar(data, 493, 501).trim();
+    return v1;
+  }
 }

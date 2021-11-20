@@ -28,7 +28,7 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla cuentas
-  Future<bool> guardarDatosCuentasDB(List<String> datosCuentas) async {
+  Future<void> guardarDatosCuentasDB(List<String> datosCuentas) async {
     //contador
     int i = 0;
     //Validador
@@ -142,12 +142,10 @@ class FuncionesLoadDatabase {
     ''');
     inserAccountData.dispose();
     validador = true;
-
-    return validador;
   }
 
 //Funcion que almacena en la DB los datos de la tabla InterlocutorComercial
-  Future<bool> guardarDatosIntComercialDB(
+  Future<void> guardarDatosIntComercialDB(
       List<String> datosInrComercial) async {
     //contador
     int i = 0;
@@ -273,12 +271,10 @@ class FuncionesLoadDatabase {
     ''');
     insertInterlocutorData.dispose();
     validador = true;
-
-    return validador;
   }
 
 //Funcion que almacena en la DB los datos de la tabla Alta Instalacion
-  Future<bool> guardarAltaInstalacionDB(
+  Future<void> guardarAltaInstalacionDB(
       List<String> datosAltasInstalacion) async {
     //contador
     int i = 0;
@@ -347,16 +343,12 @@ class FuncionesLoadDatabase {
     COMMIT;
         ''');
     insertAltaInstalacionData.dispose();
-    validador = true;
-    return validador;
   }
 
 //Funcion que almacena en la DB los datos de la tabla Medidores
-  Future<bool> guardarMedidorDB(List<String> datosMedidores) async {
+  Future<void> guardarMedidorDB(List<String> datosMedidores) async {
     //contador
     int i = 0;
-    //Validador
-    bool validador = false;
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
     Database db = await dbTBZ.getDatabase();
@@ -416,7 +408,6 @@ class FuncionesLoadDatabase {
         medidor.TPLNR
       ]);
     }
-    validador = true;
     db.execute('''COMMIT;''');
     db.execute('''
     BEGIN;
@@ -448,11 +439,10 @@ class FuncionesLoadDatabase {
     COMMIT;
     ''');
     insertDataMedidor.dispose();
-    return validador;
   }
 
 //Funcion que almacena en la DB los datos de la tabla Instalaciones
-  Future<bool> guardarInstalacionesDB(List<String> datosInstalaciones) async {
+  Future<void> guardarInstalacionesDB(List<String> datosInstalaciones) async {
     //contador
     int i = 0;
     //Validador
@@ -553,12 +543,10 @@ class FuncionesLoadDatabase {
     ''');
     insertDataInstalacion.dispose();
     validador = true;
-
-    return validador;
   }
 
 //Funcion que almacena en la DB los datos de la tabla Objeto de Conexion
-  Future<bool> guardarObjetoConexionDB(List<String> datosObjetoConexion) async {
+  Future<void> guardarObjetoConexionDB(List<String> datosObjetoConexion) async {
     //contador
     int i = 0;
     //Validador
@@ -653,17 +641,13 @@ class FuncionesLoadDatabase {
     COMMIT;
     ''');
     insertDataObjetoConexion.dispose();
-    validador = true;
-    return validador;
   }
 
 //Funcion que almacena en la DB los datos de la tabla Instalaciones
-  Future<bool> guardarPuntoSumiinistroDB(
+  Future<void> guardarPuntoSumiinistroDB(
       List<String> datosPuntoSuministro) async {
     //contador
     int i = 0;
-    //Validador
-    bool validador = false;
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
     Database db = await dbTBZ.getDatabase();
@@ -742,9 +726,8 @@ class FuncionesLoadDatabase {
     SET ANZPERS = NULL WHERE ANZPERS = '';
     COMMIT;
     ''');
+
     insertDataPuntoInstalacion.dispose();
-    validador = true;
-    return validador;
   }
 
   Future<void> crearTablaZ(String cualquierCosa) async {
@@ -1657,5 +1640,79 @@ class FuncionesLoadDatabase {
 
       COMMIT;
       ''');
+  }
+
+  //Cargar datos SPOOL Vigencia actual
+  Future<void> guardarDatosVigenciaActual(
+      List<String> datosVigenciaActual) async {
+    //Funciones Generales Tabla z
+    FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
+    //contador
+    int i = 0;
+    //Database
+    DatabaseClass dbTBZ = DatabaseClass();
+    Database db = await dbTBZ.getDatabase();
+
+    db.execute('''
+      BEGIN;
+      DROP TABLE IF EXISTS VIGENCIA01;
+      CREATE TABLE VIGENCIA01 (
+        ZZCTACONTR,
+        ZZDIRENVIO,
+        ZZDIAMEDID,
+        ZZLECACTUAL,
+        ZZLECANTERI,
+        ZZULTCONSUMO,
+        ZZCODULTCONS,
+        ZZCNSPROMHIST,
+        ZZINDINQUILIN,
+        ZZMESMORA,
+        ZZVLRTER,
+        IND_FRADIG,
+        ZZTELEFONO,
+        ZZCORREO
+      );
+    ''');
+    final insertDataVigencia01 = db.prepare('''
+    INSERT INTO VIGENCIA01 (
+        ZZCTACONTR,
+        ZZDIRENVIO,
+        ZZDIAMEDID,
+        ZZLECACTUAL,
+        ZZLECANTERI,
+        ZZULTCONSUMO,
+        ZZCODULTCONS,
+        ZZCNSPROMHIST,
+        ZZINDINQUILIN,
+        ZZMESMORA,
+        ZZVLRTER,
+        IND_FRADIG,
+        ZZTELEFONO,
+        ZZCORREO
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)        
+    ''');
+    for (i; i <= datosVigenciaActual.length - 1; i++) {
+      String linea = datosVigenciaActual[i];
+      SpoolVigenciaActual vigenciaACT = fz.dataSpoolActual(linea);
+      insertDataVigencia01.execute([
+        vigenciaACT.ZZCTACONTR,
+        vigenciaACT.ZZDIRENVIO,
+        vigenciaACT.ZZDIAMEDID,
+        vigenciaACT.ZZLECACTUAL,
+        vigenciaACT.ZZLECANTERI,
+        vigenciaACT.ZZULTCONSUMO,
+        vigenciaACT.ZZCODULTCONS,
+        vigenciaACT.ZZCNSPROMHIST,
+        vigenciaACT.ZZINDINQUILIN,
+        vigenciaACT.ZZMESMORA,
+        vigenciaACT.ZZVLRTER,
+        vigenciaACT.IND_FRADIG,
+        vigenciaACT.ZZTELEFONO,
+        vigenciaACT.ZZCORREO
+      ]);
+    }
+    db.execute('''
+    COMMIT;
+    ''');
   }
 }
