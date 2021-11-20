@@ -2,9 +2,11 @@
 // ignore_for_file: dead_code, sized_box_for_whitespace
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:tablaz/funciones/funciones_join_txt.dart';
+import 'package:tablaz/funciones/funciones_load_db.dart';
 import 'package:tablaz/ui/encabezado.dart';
 
 class CreacionTablaZ extends StatefulWidget {
@@ -243,9 +245,9 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 01',
-                                style: TextStyle(
+                              subtitle: Text(
+                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 1 \n $datosV1',
+                                style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -255,7 +257,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                 String? carpetaVigencia =
                                     await FilePicker.platform.getDirectoryPath(
                                         dialogTitle:
-                                            'Seleccionar Carpeta Vigencia 01');
+                                            'Seleccionar Carpeta Vigencia 1');
                                 if (carpetaVigencia == null) {
                                   showToast('No se selecciono Ninguna Carpeta',
                                       context: context);
@@ -288,15 +290,15 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Vigencia 2',
+                                'Folder Datos Facturacion Vigencia 2',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 2',
-                                style: TextStyle(
+                              subtitle: Text(
+                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 2 \n $datosV2',
+                                style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -339,9 +341,9 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 3',
-                                style: TextStyle(
+                              subtitle: Text(
+                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 3 \n $datosV3',
+                                style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -390,9 +392,9 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 04',
-                                style: TextStyle(
+                              subtitle: Text(
+                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 4 \n $datosV4',
+                                style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -435,9 +437,9 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 5',
-                                style: TextStyle(
+                              subtitle: Text(
+                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 5 \n $datosV5',
+                                style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -480,15 +482,15 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Vigencia 06',
+                                'Folder Datos Vigencia 6',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 6',
-                                style: TextStyle(
+                              subtitle: Text(
+                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 6 \n $datosV6',
+                                style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -535,40 +537,241 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           context: context);
                     } else {
                       //Ejecutar Codigo crear Tabla Z
+                      try {
+                        setState(() {
+                          cargando = true;
+                          mensaje = 'Uniendo reportes de SAP';
+                        });
+                        showToast('Iniciando Proceso', context: context);
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los archivos de la Vigencia 1: $e';
+                          check01 = Colors.red;
+                        });
+                      }
+
+                      //Ejecutando la unión de los archivos de SAP con CMD (DOS)
+                      try {
+                        await jTXT.joinReportesSAP(datosSap);
+                        setState(() {
+                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 1';
+                        });
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los Reportes de SAP: "$e';
+                          check01 = Colors.red;
+                        });
+                      }
+                      //Ejecutando la unión de los archivos de Impresión Vigencia 1
+                      try {
+                        await jTXT.joinArchivosImpresion(datosV1, 'V1');
+                        setState(() {
+                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 2';
+                        });
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los archivos de la Vigencia 1: "$e';
+                          check01 = Colors.red;
+                        });
+                      }
+                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 2
+                      try {
+                        await jTXT.joinArchivosImpresion(datosV2, 'V2');
+                        setState(() {
+                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 3';
+                          check01 = Colors.red;
+                        });
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los archivos de la Vigencia 2: "$e';
+                          check01 = Colors.red;
+                        });
+                      }
+                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 3
+                      try {
+                        await jTXT.joinArchivosImpresion(datosV3, 'V3');
+                        setState(() {
+                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 4';
+                        });
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los archivos de la Vigencia 3: "$e';
+                          check01 = Colors.red;
+                        });
+                      }
+                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 4
+                      try {
+                        await jTXT.joinArchivosImpresion(datosV4, 'V4');
+                        setState(() {
+                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 5';
+                        });
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los archivos de la Vigencia 4: "$e';
+                          check01 = Colors.red;
+                        });
+                      }
+                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 5
+                      try {
+                        await jTXT.joinArchivosImpresion(datosV5, 'V5');
+                        setState(() {
+                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 6';
+                        });
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los archivos de la Vigencia 5: "$e';
+                          check01 = Colors.red;
+                        });
+                      }
+                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 5
+                      try {
+                        await jTXT.joinArchivosImpresion(datosV6, 'V6');
+                        setState(() {
+                          mensaje = 'Iniciando Carga de Datos de SAP';
+                        });
+                      } catch (e) {
+                        setState(() {
+                          mensaje =
+                              'Error durante la unión de los archivos de la Vigencia 6: "$e';
+                          check01 = Colors.red;
+                        });
+                      }
+                      //Carga de Datos de la Tabla
+                    }
+                    //Creando y/o Cargando base de Datos
+                    FuncionesLoadDatabase fzLoadDB = FuncionesLoadDatabase();
+                    //Leyendo TXT y Cargando datos de Cuentas (ACCOUNT)
+                    try {
+                      final List<String> dataAccount = await compute(
+                          fzLoadDB.txtToListString,
+                          '$datosSap\\TABLE_ACCOUNT.TXT');
+                      await compute(
+                          fzLoadDB.guardarDatosCuentasDB, dataAccount);
                       setState(() {
-                        cargando = true;
-                        mensaje = 'Uniendo reportes de SAP';
+                        mensaje = 'Datos cuentas (ACCOUNT) almacenado en la DB';
                       });
-                      showToast('Iniciando Proceso', context: context);
-                      await jTXT.joinReportesSAP(datosSap);
+                    } catch (e) {
                       setState(() {
-                        mensaje = 'Uniendo Arhivos de Impresión Vigencia 1';
-                      });
-                      await jTXT.joinArchivosImpresion(datosV1, 'V1');
-                      setState(() {
-                        mensaje = 'Uniendo Arhivos de Impresión Vigencia 2';
-                      });
-                      await jTXT.joinArchivosImpresion(datosV2, 'V2');
-                      setState(() {
-                        mensaje = 'Uniendo Arhivos de Impresión Vigencia 3';
-                      });
-                      await jTXT.joinArchivosImpresion(datosV3, 'V3');
-                      setState(() {
-                        mensaje = 'Uniendo Arhivos de Impresión Vigencia 4';
-                      });
-                      await jTXT.joinArchivosImpresion(datosV4, 'V4');
-                      setState(() {
-                        mensaje = 'Uniendo Arhivos de Impresión Vigencia 5';
-                      });
-                      await jTXT.joinArchivosImpresion(datosV4, 'V5');
-                      setState(() {
-                        mensaje = 'Uniendo Arhivos de Impresión Vigencia 6';
-                      });
-                      await jTXT.joinArchivosImpresion(datosV4, 'V6');
-                      setState(() {
-                        mensaje = 'Iniciando Carga de Datos de SAP';
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento de la Tabla Account: $e';
+                        check01 = Colors.red;
                       });
                     }
+                    //Leyendo txt y Caragando Datos de Medidores (DEVICE)
+                    try {
+                      final List<String> dataDevice = await compute(
+                          fzLoadDB.txtToListString,
+                          '$datosSap\\TABLE_DEVICE.TXT');
+                      await compute(fzLoadDB.guardarMedidorDB, dataDevice);
+                      setState(() {
+                        mensaje = 'Datos Medidor (DEVICE) almacenado en la DB';
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento de la Tabla Device: $e';
+                        check01 = Colors.red;
+                      });
+                    }
+                    //Leyendo txt y Cargando Datos de Instalación (INSTLN)
+                    try {
+                      final List<String> dataInstln = await compute(
+                          fzLoadDB.txtToListString,
+                          '$datosSap\\TABLE_INSTLN.TXT');
+                      await compute(
+                          fzLoadDB.guardarInstalacionesDB, dataInstln);
+                      setState(() {
+                        mensaje =
+                            'Datos Instalación (INSTLN) almacenado en la DB';
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento de la Tabla INSTLN: $e';
+                        check01 = Colors.red;
+                      });
+                    }
+                    //Leyendo txt y Cargando Datos de la Alta de Instalación (MOVE-IN)
+                    try {
+                      final List<String> dataMoveIN = await compute(
+                          fzLoadDB.txtToListString,
+                          '$datosSap\\TABLE_MOVE.TXT');
+                      await compute(
+                          fzLoadDB.guardarAltaInstalacionDB, dataMoveIN);
+                      setState(() {
+                        mensaje =
+                            'Datos Alta de Instalación (MOVE-IN) almacenado en la DB';
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento de la Tabla MOVE-IN: $e';
+                        check01 = Colors.red;
+                      });
+                    }
+                    //Leyendo txt y Cargando Datos del Objeto de Conexión (CONNOBJ)
+                    try {
+                      final List<String> dataConnObj = await compute(
+                          fzLoadDB.txtToListString,
+                          '$datosSap\\TABLE_OBJCON.TXT');
+                      await compute(
+                          fzLoadDB.guardarObjetoConexionDB, dataConnObj);
+                      setState(() {
+                        mensaje =
+                            'Datos Objeto de conexión (CONNOBJ) almacenado en la DB';
+                        check05 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento de la Tabla CONNOBJ: $e';
+                      });
+                    }
+                    //Leyendo txt y Cargando datos del Interlocutor Comercial (PARTNER)
+                    try {
+                      final List<String> dataPartner = await compute(
+                          fzLoadDB.txtToListString,
+                          '$datosSap\\TABLE_PARTNER.TXT');
+                      await compute(
+                          fzLoadDB.guardarDatosIntComercialDB, dataPartner);
+                      setState(() {
+                        mensaje =
+                            'Datos Interlocutor Comercial (PARTNER) almacenado en la DB';
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento de la Tabla PARTNER: $e';
+                        check01 = Colors.red;
+                      });
+                    }
+                    //Leyendo txt y Cargando datos del Puntos de Suministro (PREMISE)
+                    try {
+                      final List<String> dataPremise = await compute(
+                          fzLoadDB.txtToListString,
+                          '$datosSap\\TABLE_PREMISE.TXT');
+                      await compute(
+                          fzLoadDB.guardarPuntoSumiinistroDB, dataPremise);
+                      setState(() {
+                        mensaje =
+                            'Datos Punto de Suministros (PREMISE) almacenado en la DB';
+                        check01 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento de la Tabla PREMISE: $e';
+                        check07 = Colors.red;
+                      });
+                    }
+                    //Cargando Datos Ultima Vigencia
                   },
                   child: Column(
                     children: const [
