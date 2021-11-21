@@ -295,3 +295,11 @@ class SpoolVigenciasAnteriores {
     };
   }
 }
+
+class SpoolDataTable {
+  late List<String> dataSpool;
+  late String nombreTabla;
+  Map<String, dynamic> toMap() {
+    return {'dataSpool': dataSpool, 'nombreTabla': nombreTabla};
+  }
+}

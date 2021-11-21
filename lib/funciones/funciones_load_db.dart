@@ -9,12 +9,30 @@ import 'package:tablaz/funciones/cargando_data.dart';
 import 'package:tablaz/objetos/objetos.dart';
 import 'package:sqlite3/sqlite3.dart';
 
+//TXT a List de String para UTF-8
 class FuncionesLoadDatabase {
   Future<List<String>> txtToListString(String ruta) async {
     File dataLoad = File(ruta);
-
     String dataCargad = dataLoad.readAsStringSync();
     String replace1 = dataCargad.replaceAll('"', ' ');
+    String dataCargada = replace1.replaceAll("'", " ");
+    //var bytesTxt = await dataLoad.readAsBytes();
+    //String dataCargada = String.fromCharCodes(bytesTxt);
+    LineSplitter lineasDataCargada = const LineSplitter();
+    List<String> lineasCargadas = lineasDataCargada.convert(dataCargada);
+    List<String> linean = [];
+    for (int i = 0; i <= lineasCargadas.length - 1; i++) {
+      linean.add(lineasCargadas[i]);
+    }
+    return linean;
+  }
+
+//TXT a List String para ANSI
+  Future<List<String>> txtToListStringANSI(String ruta) async {
+    File dataLoad = File(ruta);
+    var bytesTxt = await dataLoad.readAsBytes();
+    String dataCargadaBytex = String.fromCharCodes(bytesTxt);
+    String replace1 = dataCargadaBytex.replaceAll('"', ' ');
     String dataCargada = replace1.replaceAll("'", " ");
     //var bytesTxt = await dataLoad.readAsBytes();
     //String dataCargada = String.fromCharCodes(bytesTxt);
@@ -1711,6 +1729,46 @@ class FuncionesLoadDatabase {
         vigenciaACT.ZZCORREO
       ]);
     }
+    insertDataVigencia01.dispose();
+    db.execute('''
+    COMMIT;
+    ''');
+  }
+
+  Future<void> guardarDatosVigenciasAnteriores(SpoolDataTable dataSpool) async {
+    //Funciones Generales Tabla z
+    FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
+    //contador
+    int i = 0;
+    //Database
+    DatabaseClass dbTBZ = DatabaseClass();
+    Database db = await dbTBZ.getDatabase();
+    db.execute('''
+      BEGIN;
+      DROP TABLE IF EXISTS ${dataSpool.nombreTabla};
+      CREATE TABLE ${dataSpool.nombreTabla}(
+        ZZCTACONTR,
+        ZZULTCONSUMO,
+        ZZCODULTCONS
+      );
+    ''');
+    final insertDataVigenciaAnterior = db.prepare('''
+    INSERT INTO ${dataSpool.nombreTabla} (
+        ZZCTACONTR,
+        ZZULTCONSUMO,
+        ZZCODULTCONS
+        ) VALUES (?,?,?)        
+    ''');
+    for (i; i <= dataSpool.dataSpool.length - 1; i++) {
+      String linea = dataSpool.dataSpool[i];
+      SpoolVigenciasAnteriores vigenciaANT = fz.dataSpolAnterior(linea);
+      insertDataVigenciaAnterior.execute([
+        vigenciaANT.ZZCTACONTR,
+        vigenciaANT.ZZULTCONSUMO,
+        vigenciaANT.ZZCODULTCONS
+      ]);
+    }
+    insertDataVigenciaAnterior.dispose();
     db.execute('''
     COMMIT;
     ''');

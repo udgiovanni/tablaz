@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:tablaz/funciones/funciones_join_txt.dart';
 import 'package:tablaz/funciones/funciones_load_db.dart';
+import 'package:tablaz/objetos/objetos.dart';
 import 'package:tablaz/ui/encabezado.dart';
 
 class CreacionTablaZ extends StatefulWidget {
@@ -163,6 +164,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
               ),
             ],
           ),
+          const SizedBox(height: 40),
           Column(
             children: [
               if (cargando) ...[
@@ -635,6 +637,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                         await jTXT.joinArchivosImpresion(datosV6, 'V6');
                         setState(() {
                           mensaje = 'Iniciando Carga de Datos de SAP';
+                          check01 = Colors.green;
                         });
                       } catch (e) {
                         setState(() {
@@ -726,12 +729,12 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       setState(() {
                         mensaje =
                             'Datos Objeto de conexión (CONNOBJ) almacenado en la DB';
-                        check05 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento de la Tabla CONNOBJ: $e';
+                        check01 = Colors.red;
                       });
                     }
                     //Leyendo txt y Cargando datos del Interlocutor Comercial (PARTNER)
@@ -772,6 +775,144 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       });
                     }
                     //Cargando Datos Ultima Vigencia
+                    try {
+                      final List<String> datosVigenciaActual = await compute(
+                          fzLoadDB.txtToListStringANSI,
+                          '$datosV1\\TABLE_V1.TXT');
+                      await compute(fzLoadDB.guardarDatosVigenciaActual,
+                          datosVigenciaActual);
+                      setState(() {
+                        mensaje = 'Datos Vigencia Actual Almacenados en la DB';
+                        check02 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 1: $e';
+                        check02 = Colors.red;
+                      });
+                    }
+                    //Cargando Datos Vigencia 2
+                    try {
+                      final List<String> datosSpoolV2 = await compute(
+                          fzLoadDB.txtToListStringANSI,
+                          '$datosV2\\TABLE_V2.TXT');
+                      SpoolDataTable dataSpoolV2 = SpoolDataTable();
+                      dataSpoolV2.dataSpool = datosSpoolV2;
+                      dataSpoolV2.nombreTabla = 'VIGENCIA02';
+                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
+                          dataSpoolV2);
+                      setState(() {
+                        mensaje = 'Datos Vigencia 2 Almacenados en la DB';
+                        check03 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 2: $e';
+                        check03 = Colors.red;
+                      });
+                    }
+                    //Cargando Datos Vigencia 3
+                    try {
+                      final List<String> datosSpoolV3 = await compute(
+                          fzLoadDB.txtToListStringANSI,
+                          '$datosV3\\TABLE_V3.TXT');
+                      SpoolDataTable dataSpoolV3 = SpoolDataTable();
+                      dataSpoolV3.dataSpool = datosSpoolV3;
+                      dataSpoolV3.nombreTabla = 'VIGENCIA03';
+                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
+                          dataSpoolV3);
+                      setState(() {
+                        mensaje = 'Datos Vigencia 3 Almacenados en la DB';
+                        check04 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 1: $e';
+                        check04 = Colors.red;
+                      });
+                    }
+                    //Cargando Datos Ultima Vigencia 4
+                    try {
+                      final List<String> datosSpoolV4 = await compute(
+                          fzLoadDB.txtToListStringANSI,
+                          '$datosV4\\TABLE_V4.TXT');
+                      SpoolDataTable dataSpoolV4 = SpoolDataTable();
+                      dataSpoolV4.dataSpool = datosSpoolV4;
+                      dataSpoolV4.nombreTabla = 'VIGENCIA04';
+                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
+                          dataSpoolV4);
+                      setState(() {
+                        mensaje = 'Datos Vigencia 4 Almacenados en la DB';
+                        check05 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 1: $e';
+                        check05 = Colors.red;
+                      });
+                    }
+                    //Cargando Datos Vigencia 5
+                    try {
+                      final List<String> datosSpoolV5 = await compute(
+                          fzLoadDB.txtToListStringANSI,
+                          '$datosV5\\TABLE_V5.TXT');
+                      SpoolDataTable dataSpoolV5 = SpoolDataTable();
+                      dataSpoolV5.dataSpool = datosSpoolV5;
+                      dataSpoolV5.nombreTabla = 'VIGENCIA05';
+                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
+                          dataSpoolV5);
+                      setState(() {
+                        mensaje = 'Datos Vigencia 5 Almacenados en la DB';
+                        check06 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 5: $e';
+                        check06 = Colors.red;
+                      });
+                    }
+                    //Cargando Datos Vigencia 6
+                    try {
+                      final List<String> dataSpoolV6 = await compute(
+                          fzLoadDB.txtToListStringANSI,
+                          '$datosV6\\TABLE_V6.TXT');
+                      SpoolDataTable datosSpoolV6 = SpoolDataTable();
+                      datosSpoolV6.dataSpool = dataSpoolV6;
+                      datosSpoolV6.nombreTabla = 'VIGENCIA06';
+                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
+                          datosSpoolV6);
+                      setState(() {
+                        mensaje = 'Datos Vigencia 6 Almacenados en la DB';
+                        check07 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 6: $e';
+                        check07 = Colors.red;
+                      });
+                    }
+                    //Generando Uniones de la Tabla Z
+                    try {
+                      await compute(fzLoadDB.crearTablaZ, '');
+                      setState(() {
+                        mensaje = 'Se ha Finalizado la Creación de la Tabla Z';
+                        cargando = false;
+                        check08 = Colors.green;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        mensaje =
+                            'Error durante la Unión de los Campos de la Tabla Z: $e';
+                        cargando = false;
+                        check08 = Colors.red;
+                      });
+                    }
                   },
                   child: Column(
                     children: const [
