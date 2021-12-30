@@ -584,7 +584,6 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                         await jTXT.joinArchivosImpresion(datosV2, 'V2');
                         setState(() {
                           mensaje = 'Uniendo Arhivos de Impresión Vigencia 3';
-                          check01 = Colors.red;
                         });
                       } catch (e) {
                         setState(() {
@@ -637,7 +636,6 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                         await jTXT.joinArchivosImpresion(datosV6, 'V6');
                         setState(() {
                           mensaje = 'Iniciando Carga de Datos de SAP';
-                          check01 = Colors.green;
                         });
                       } catch (e) {
                         setState(() {
@@ -773,6 +771,13 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                             'Error durante la Lectura o Almacenamiento de la Tabla PREMISE: $e';
                         check07 = Colors.red;
                       });
+                    }
+                    //Cargando Datos Contrato (EVER)
+                    try{
+                      final List<String> dataEver = await compute (fzLoadDB.)
+                    }
+                    catch(e){
+
                     }
                     //Cargando Datos Ultima Vigencia
                     try {
