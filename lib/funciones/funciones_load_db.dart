@@ -34,8 +34,6 @@ class FuncionesLoadDatabase {
     String dataCargadaBytex = String.fromCharCodes(bytesTxt);
     String replace1 = dataCargadaBytex.replaceAll('"', ' ');
     String dataCargada = replace1.replaceAll("'", " ");
-    //var bytesTxt = await dataLoad.readAsBytes();
-    //String dataCargada = String.fromCharCodes(bytesTxt);
     LineSplitter lineasDataCargada = const LineSplitter();
     List<String> lineasCargadas = lineasDataCargada.convert(dataCargada);
     List<String> linean = [];
@@ -44,6 +42,8 @@ class FuncionesLoadDatabase {
     }
     return linean;
   }
+
+
 
 //Funcion que almacena en la DB los datos de la tabla cuentas
   Future<void> guardarDatosCuentasDB(List<String> datosCuentas) async {
@@ -60,23 +60,23 @@ class FuncionesLoadDatabase {
 
     db.execute('''
     BEGIN;
-    DROP TABLE IF EXISTS ACCOUNT;
-    CREATE TABLE ACCOUNT (
-      VKONT,
-      GPART,
-      VKTYP,
-      STREET,
-      VKBEZ,
-      VKONA,
-      REGIOGR_CA_T,
-      KTOKL,
-      KOFIZ_SD,
-      ABWVK,
-      FORMKEY,
-      ZZDIR,
-      IKEY,
-      ZPORTION,
-      REGIOGROUP
+    DROP TABLE IF EXISTS "ACCOUNT";
+    CREATE TABLE "ACCOUNT" (
+      "VKONT"	TEXT,
+      "GPART"	TEXT,
+      "VKTYP"	TEXT,
+      "STREET"	TEXT,
+      "VKBEZ"	TEXT,
+      "VKONA"	TEXT,
+      "REGIOGR_CA_T"	TEXT,
+      "KTOKL"	TEXT,
+      "KOFIZ_SD"	TEXT,
+      "ABWVK"	TEXT,
+      "FORMKEY_CA"	TEXT,
+      "ZZDIR"	TEXT,
+      "IKEY"	TEXT,
+      "ZPORTION"	TEXT,
+      "REGIOGROUP"	TEXT
     );
     ''');
     final inserAccountData = db.prepare('''
@@ -91,13 +91,13 @@ class FuncionesLoadDatabase {
         KTOKL,
         KOFIZ_SD,
         ABWVK,
-        FORMKEY,
+        FORMKEY_CA,
         ZZDIR,
         IKEY,
         ZPORTION,
         REGIOGROUP
         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-    ''');
+      ''');
     for (i; i <= datosCuentas.length - 1; i++) {
       String linea = datosCuentas[i];
       CuentaContratoType cuenta = fz.dataCuenta(linea);
@@ -145,7 +145,7 @@ class FuncionesLoadDatabase {
     UPDATE ACCOUNT
     SET ABWVK = NULL WHERE ABWVK = '';
     UPDATE ACCOUNT
-    SET FORMKEY = NULL WHERE FORMKEY = '';
+    SET FORMKEY_CA = NULL WHERE FORMKEY_CA = '';
     UPDATE ACCOUNT
     SET ZZDIR = NULL WHERE ZZDIR = '';
     UPDATE ACCOUNT
@@ -748,6 +748,19 @@ class FuncionesLoadDatabase {
     insertDataPuntoInstalacion.dispose();
   }
 
+// Función que almacena en la DB los datos de la Tabla Contrato (EVER)
+
+  Future<void> guardarContrato(List<String> datosContrato)async{
+    //contador
+    int i = 0;
+    //Database
+    DatabaseClass dbTBZ = DatabaseClass();
+    Database db = await dbTBZ.getDatabase();
+    //Funciones de soporte
+    FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
+    //Eliminar tabla si exiSTE y crear la nueva tabla
+    asd
+  }
   Future<void> crearTablaZ(String cualquierCosa) async {
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
@@ -1436,7 +1449,7 @@ class FuncionesLoadDatabase {
       TABLA_Z_ACCOUNTS_MOVE_IN_PREMISE_CONNOBJ.CONNOBJ_REGION,
       ACCOUNT.GPART AS PARTNER_PARTNER
       FROM TABLA_Z_ACCOUNTS_MOVE_IN_PREMISE_CONNOBJ
-      LEFT OUTER JOIN ACCOUNT ON TABLA_Z_ACCOUNTS_MOVE_IN_PREMISE_CONNOBJ.ACCOUNT_VKONT = ACCOUNT.GPART
+      LEFT OUTER JOIN ACCOUNT ON TABLA_Z_ACCOUNTS_MOVE_IN_PREMISE_CONNOBJ.ACCOUNT_VKONT = ACCOUNT.VKONT
       GROUP BY TABLA_Z_ACCOUNTS_MOVE_IN_PREMISE_CONNOBJ.ACCOUNT_VKONT;
 
       --ELIMINANDO TABLAS TEMPORALES AS

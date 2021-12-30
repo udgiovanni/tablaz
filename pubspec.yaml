@@ -41,6 +41,8 @@ dependencies:
   sqflite_common: ^2.0.1+1
   sqflite_common_ffi: ^2.1.0
   process_run: ^0.12.2+2
+  csv: ^5.0.1
+  shell: ^2.0.0
 
   
 
