@@ -153,6 +153,47 @@ class FuncionesGeneralesTablaZ {
     return medidorData;
   }
 
+  ContratoType dataContrato(String data) {
+    ContratoType contratoData = ContratoType();
+    List<String> contratoLinea = data.split('|');
+    try {
+      int cuentaContrato = int.parse(contratoLinea[1]);
+      contratoData.VKONTO = contratoLinea[1].trim(); //Cuenta Contrato
+      contratoData.VERTRAG = contratoLinea[2].trim(); //Contrato
+      contratoData.SPARTE = contratoLinea[9].trim(); //Sector
+      contratoData.STAGRUVER = contratoLinea[7].trim(); // GR
+      contratoData.BUKRS = ''; // FALTANTE
+      contratoData.GEMFAKT = contratoLinea[12].trim(); // FC
+      contratoData.ABRSPERR = contratoLinea[16].trim(); // MC
+      contratoData.ABRFREIG = ''; // FALTANTE
+      contratoData.KOFIZ = ''; // FALTANTE
+      contratoData.COKEY = contratoLinea[8].trim(); //Imputación
+      contratoData.BSTATUS = ''; // FALTANTE
+      contratoData.FAKTURIERT = ''; // FALTANTE
+      contratoData.ERNAM = contratoLinea[11].trim(); // CREADO POR
+      contratoData.EINZDAT = fechaNormal(contratoLinea[10].trim()); // FCREACIÓN
+      contratoData.AUSZDAT =
+          fechaNormal(contratoLinea[15].trim()); // FECHA DE BAJA
+    } catch (e) {
+      contratoData.VKONTO = '';
+      contratoData.VERTRAG = '';
+      contratoData.SPARTE = '';
+      contratoData.STAGRUVER = '';
+      contratoData.BUKRS = '';
+      contratoData.GEMFAKT = '';
+      contratoData.ABRSPERR = '';
+      contratoData.ABRFREIG = '';
+      contratoData.KOFIZ = '';
+      contratoData.COKEY = '';
+      contratoData.BSTATUS = '';
+      contratoData.FAKTURIERT = '';
+      contratoData.ERNAM = '';
+      contratoData.EINZDAT = '';
+      contratoData.AUSZDAT = '';
+    }
+    return contratoData;
+  }
+
   SpoolVigenciaActual dataSpoolActual(String data1) {
     String data2 = data1.replaceAll('\$', " ");
     String data3 = data2.replaceAll('"', " ");
@@ -176,16 +217,10 @@ class FuncionesGeneralesTablaZ {
 
     return v0;
   }
+}
 
-  SpoolVigenciasAnteriores dataSpolAnterior(String data1) {
-    String data2 = data1.replaceAll('\$', " ");
-    String data3 = data2.replaceAll('"', " ");
-    String data4 = data3.replaceAll("'", ' ');
-    String data = data4.replaceAll(",", ' ');
-    SpoolVigenciasAnteriores v1 = SpoolVigenciasAnteriores();
-    v1.ZZCTACONTR = tryStringCortar(data, 14, 26).trim();
-    v1.ZZULTCONSUMO = tryStringCortar(data, 485, 493).trim();
-    v1.ZZCODULTCONS = tryStringCortar(data, 493, 501).trim();
-    return v1;
-  }
+String fechaNormal(String fecha) {
+  List<String> fechaFrag = fecha.split('.');
+  String fechaNormal = fechaFrag[2] + fechaFrag[1] + fechaFrag[0];
+  return fechaNormal;
 }

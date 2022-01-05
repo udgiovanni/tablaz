@@ -283,23 +283,47 @@ class SpoolVigenciaActual {
   }
 }
 
-class SpoolVigenciasAnteriores {
-  late String ZZCTACONTR;
-  late String ZZULTCONSUMO;
-  late String ZZCODULTCONS;
-  Map<String, dynamic> toMap() {
-    return {
-      'ZZCTACONTR': ZZCTACONTR,
-      'ZZULTCONSUMO': ZZULTCONSUMO,
-      'ZZCODULTCONS': ZZCODULTCONS,
-    };
-  }
-}
-
 class SpoolDataTable {
   late List<String> dataSpool;
   late String nombreTabla;
   Map<String, dynamic> toMap() {
     return {'dataSpool': dataSpool, 'nombreTabla': nombreTabla};
+  }
+}
+
+class ContratoType {
+  late String VKONTO;
+  late String VERTRAG;
+  late String SPARTE;
+  late String STAGRUVER;
+  late String BUKRS;
+  late String GEMFAKT;
+  late String ABRSPERR;
+  late String ABRFREIG;
+  late String KOFIZ;
+  late String COKEY;
+  late String BSTATUS;
+  late String FAKTURIERT;
+  late String ERNAM;
+  late String EINZDAT;
+  late String AUSZDAT;
+  Map<String, dynamic> toMap() {
+    return {
+      'VKONTO': VKONTO,
+      'VERTRAG': VERTRAG,
+      'SPARTE': SPARTE,
+      'STAGRUVER': STAGRUVER,
+      'BUKRS': BUKRS,
+      'GEMFAKT': GEMFAKT,
+      'ABRSPERR': ABRSPERR,
+      'ABRFREIG': ABRFREIG,
+      'KOFIZ': KOFIZ,
+      'COKEY': COKEY,
+      'BSTATUS': BSTATUS,
+      'FAKTURIERT': FAKTURIERT,
+      'ERNAM': ERNAM,
+      'EINZDAT': EINZDAT,
+      'AUSZDAT': AUSZDAT
+    };
   }
 }

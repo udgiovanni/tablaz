@@ -43,14 +43,10 @@ class FuncionesLoadDatabase {
     return linean;
   }
 
-
-
 //Funcion que almacena en la DB los datos de la tabla cuentas
   Future<void> guardarDatosCuentasDB(List<String> datosCuentas) async {
     //contador
     int i = 0;
-    //Validador
-    bool validador = false;
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
     Database db = await dbTBZ.getDatabase();
@@ -65,7 +61,7 @@ class FuncionesLoadDatabase {
       "VKONT"	TEXT,
       "GPART"	TEXT,
       "VKTYP"	TEXT,
-      "STREET"	TEXT,
+      "STREET" TEXT,
       "VKBEZ"	TEXT,
       "VKONA"	TEXT,
       "REGIOGR_CA_T"	TEXT,
@@ -159,7 +155,6 @@ class FuncionesLoadDatabase {
     COMMIT;
     ''');
     inserAccountData.dispose();
-    validador = true;
   }
 
 //Funcion que almacena en la DB los datos de la tabla InterlocutorComercial
@@ -167,8 +162,6 @@ class FuncionesLoadDatabase {
       List<String> datosInrComercial) async {
     //contador
     int i = 0;
-    //Validador
-    bool validador = false;
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
     Database db = await dbTBZ.getDatabase();
@@ -288,7 +281,6 @@ class FuncionesLoadDatabase {
     COMMIT;
     ''');
     insertInterlocutorData.dispose();
-    validador = true;
   }
 
 //Funcion que almacena en la DB los datos de la tabla Alta Instalacion
@@ -296,8 +288,6 @@ class FuncionesLoadDatabase {
       List<String> datosAltasInstalacion) async {
     //contador
     int i = 0;
-    //Validador
-    bool validador = false;
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
     Database db = await dbTBZ.getDatabase();
@@ -463,8 +453,6 @@ class FuncionesLoadDatabase {
   Future<void> guardarInstalacionesDB(List<String> datosInstalaciones) async {
     //contador
     int i = 0;
-    //Validador
-    bool validador = false;
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
     Database db = await dbTBZ.getDatabase();
@@ -560,15 +548,12 @@ class FuncionesLoadDatabase {
     COMMIT;
     ''');
     insertDataInstalacion.dispose();
-    validador = true;
   }
 
 //Funcion que almacena en la DB los datos de la tabla Objeto de Conexion
   Future<void> guardarObjetoConexionDB(List<String> datosObjetoConexion) async {
     //contador
     int i = 0;
-    //Validador
-    bool validador = false;
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
     Database db = await dbTBZ.getDatabase();
@@ -750,7 +735,7 @@ class FuncionesLoadDatabase {
 
 // Función que almacena en la DB los datos de la Tabla Contrato (EVER)
 
-  Future<void> guardarContrato(List<String> datosContrato)async{
+  Future<void> guardarContrato(List<String> datosContrato) async {
     //contador
     int i = 0;
     //Database
@@ -759,8 +744,187 @@ class FuncionesLoadDatabase {
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
-    asd
+    db.execute('''
+      BEGIN;
+      DROP TABLE IF EXISTS EVER;
+      CREATE TABLE "EVER" (
+      "VKONTO"	TEXT,
+      "VERTRAG"	TEXT,
+      "SPARTE"	TEXT,
+      "STAGRUVER"	TEXT,
+      "BUKRS"	TEXT,
+      "GEMFAKT"	TEXT,
+      "ABRSPERR"	TEXT,
+      "ABRFREIG"	TEXT,
+      "KOFIZ"	TEXT,
+      "COKEY"	TEXT,
+      "BSTATUS"	TEXT,
+      "FAKTURIERT"	TEXT,
+      "ERNAM"	TEXT,
+      "EINZDAT"	TEXT,
+      "AUSZDAT"	TEXT
+    );
+    ''');
+    final insertDataInstalacion = db.prepare('''
+    INSERT INTO "EVER" (
+      VKONTO,
+      VERTRAG,
+      SPARTE,
+      STAGRUVER,
+      BUKRS,
+      GEMFAKT,
+      ABRSPERR,
+      ABRFREIG,
+      KOFIZ,
+      COKEY,
+      BSTATUS,
+      FAKTURIERT,
+      ERNAM,
+      EINZDAT,
+      AUSZDAT
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    ''');
+    for (i; i <= datosContrato.length - 1; i++) {
+      String linea = datosContrato[i];
+      ContratoType contratoType = fz.dataContrato(linea);
+      insertDataInstalacion.execute([
+        contratoType.VKONTO,
+        contratoType.VERTRAG,
+        contratoType.SPARTE,
+        contratoType.STAGRUVER,
+        contratoType.BUKRS,
+        contratoType.GEMFAKT,
+        contratoType.ABRFREIG,
+        contratoType.ABRSPERR,
+        contratoType.KOFIZ,
+        contratoType.COKEY,
+        contratoType.BSTATUS,
+        contratoType.FAKTURIERT,
+        contratoType.ERNAM,
+        contratoType.EINZDAT,
+        contratoType.AUSZDAT
+      ]);
+    }
+    db.execute('''
+    COMMIT;
+    ''');
+    db.execute('''
+    BEGIN;
+    DELETE FROM EVER WHERE VKONTO = '';
+    UPDATE EVER
+    SET VERTRAG = NULL WHERE VERTRAG = '';
+    UPDATE EVER
+    SET SPARTE = NULL WHERE SPARTE = '';
+    UPDATE EVER
+    SET STAGRUVER = NULL WHERE STAGRUVER = '';
+    UPDATE EVER
+    SET BUKRS = NULL WHERE BUKRS = '';
+    UPDATE EVER
+    SET GEMFAKT = NULL WHERE GEMFAKT = '';
+    UPDATE EVER
+    SET ABRSPERR = NULL WHERE ABRSPERR = '';
+    UPDATE EVER
+    SET ABRFREIG = NULL WHERE ABRFREIG = '';
+    UPDATE EVER
+    SET KOFIZ = NULL WHERE KOFIZ = '';
+    UPDATE EVER
+    SET BSTATUS = NULL WHERE BSTATUS = '';
+    UPDATE EVER
+    SET FAKTURIERT = NULL WHERE FAKTURIERT = '';
+    UPDATE EVER
+    SET ERNAM = NULL WHERE ERNAM = '';
+    UPDATE EVER
+    SET EINZDAT = NULL WHERE EINZDAT = '';
+    UPDATE EVER
+    SET AUSZDAT = NULL WHERE AUSZDAT = '';
+    COMMIT;
+    ''');
   }
+
+  //Carga de Datos Spool
+  Future<void> loadDataSpool(SpoolDataTable dataSpool) async {
+    DatabaseClass dbTBZ = DatabaseClass();
+    Database db = await dbTBZ.getDatabase();
+    FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
+    db.execute('''
+    BEGIN;
+    DROP TABLE IF EXISTS ${dataSpool.nombreTabla};
+    CREATE TABLE ${dataSpool.nombreTabla}(
+      "ZZCTACONTR"	TEXT,
+      "ZZDIRENVIO"	TEXT,
+      "ZZDIAMEDID"	TEXT,
+      "ZZLECACTUAL"	TEXT,
+      "ZZLECANTERI"	TEXT,
+      "ZZULTCONSUMO"	TEXT,
+      "ZZCODULTCONS"	TEXT,
+      "ZZCNSPROMHIST"	TEXT,
+      "ZZINDINQUILIN"	TEXT,
+      "ZZMESMORA"	TEXT,
+      "ZZVLRTER"	TEXT,
+      "IND_FRADIG"	TEXT,
+      "ZZTELEFONO"	TEXT,
+      "ZZCORREO"	TEXT
+    );
+    ''');
+    final insertDataSpool = db.prepare('''
+    INSERT INTO ${dataSpool.nombreTabla} (
+      ZZCTACONTR,
+      ZZDIRENVIO,
+      ZZDIAMEDID,
+      ZZLECACTUAL,
+      ZZLECANTERI,
+      ZZULTCONSUMO,
+      ZZCODULTCONS,
+      ZZCNSPROMHIST,
+      ZZINDINQUILIN,
+      ZZMESMORA,
+      ZZVLRTER,
+      IND_FRADIG,
+      ZZTELEFONO,
+      ZZCORREO
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    ''');
+    for (int i = 0; i <= dataSpool.dataSpool.length - 1; i++) {
+      String linea = dataSpool.dataSpool[i];
+      SpoolVigenciaActual spoolVig = fz.dataSpoolActual(linea);
+      insertDataSpool.execute([
+        spoolVig.ZZCTACONTR,
+        spoolVig.ZZDIRENVIO,
+        spoolVig.ZZDIAMEDID,
+        spoolVig.ZZLECACTUAL,
+        spoolVig.ZZLECANTERI,
+        spoolVig.ZZULTCONSUMO,
+        spoolVig.ZZCODULTCONS,
+        spoolVig.ZZCNSPROMHIST,
+        spoolVig.ZZINDINQUILIN,
+        spoolVig.ZZMESMORA,
+        spoolVig.ZZVLRTER,
+        spoolVig.IND_FRADIG,
+        spoolVig.ZZTELEFONO,
+        spoolVig.ZZCORREO
+      ]);
+    }
+    db.execute('''
+    COMMIT;
+    ''');
+    db.execute('''
+    DELETE FROM ${dataSpool.nombreTabla} WHERE ZZCTACONTR IS NULL;
+    UPDATE ${dataSpool.nombreTabla} SET ZZDIRENVIO = NULL WHERE ZZDIRENVIO = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZDIAMEDID = NULL WHERE ZZDIAMEDID = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZLECACTUAL = NULL WHERE ZZLECACTUAL = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZLECANTERI = NULL WHERE ZZLECANTERI = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZULTCONSUMO = NULL WHERE ZZULTCONSUMO = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZCODULTCONS = NULL WHERE ZZCODULTCONS = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZCNSPROMHIST = NULL WHERE ZZCNSPROMHIST = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZINDINQUILIN = NULL WHERE ZZINDINQUILIN = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZMESMORA = NULL WHERE ZZMESMORA = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZVLRTER = NULL WHERE ZZVLRTER = '';
+    UPDATE ${dataSpool.nombreTabla} SET IND_FRADIG = NULL WHERE IND_FRADIG = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZTELEFONO = NULL WHERE ZZTELEFONO = '';
+    UPDATE ${dataSpool.nombreTabla} SET ZZCORREO = NULL WHERE ZZCORREO = '';
+    ''');
+  }
+
   Future<void> crearTablaZ(String cualquierCosa) async {
     //Database
     DatabaseClass dbTBZ = DatabaseClass();
@@ -1671,119 +1835,5 @@ class FuncionesLoadDatabase {
 
       COMMIT;
       ''');
-  }
-
-  //Cargar datos SPOOL Vigencia actual
-  Future<void> guardarDatosVigenciaActual(
-      List<String> datosVigenciaActual) async {
-    //Funciones Generales Tabla z
-    FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
-    //contador
-    int i = 0;
-    //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
-
-    db.execute('''
-      BEGIN;
-      DROP TABLE IF EXISTS VIGENCIA01;
-      CREATE TABLE VIGENCIA01 (
-        ZZCTACONTR,
-        ZZDIRENVIO,
-        ZZDIAMEDID,
-        ZZLECACTUAL,
-        ZZLECANTERI,
-        ZZULTCONSUMO,
-        ZZCODULTCONS,
-        ZZCNSPROMHIST,
-        ZZINDINQUILIN,
-        ZZMESMORA,
-        ZZVLRTER,
-        IND_FRADIG,
-        ZZTELEFONO,
-        ZZCORREO
-      );
-    ''');
-    final insertDataVigencia01 = db.prepare('''
-    INSERT INTO VIGENCIA01 (
-        ZZCTACONTR,
-        ZZDIRENVIO,
-        ZZDIAMEDID,
-        ZZLECACTUAL,
-        ZZLECANTERI,
-        ZZULTCONSUMO,
-        ZZCODULTCONS,
-        ZZCNSPROMHIST,
-        ZZINDINQUILIN,
-        ZZMESMORA,
-        ZZVLRTER,
-        IND_FRADIG,
-        ZZTELEFONO,
-        ZZCORREO
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)        
-    ''');
-    for (i; i <= datosVigenciaActual.length - 1; i++) {
-      String linea = datosVigenciaActual[i];
-      SpoolVigenciaActual vigenciaACT = fz.dataSpoolActual(linea);
-      insertDataVigencia01.execute([
-        vigenciaACT.ZZCTACONTR,
-        vigenciaACT.ZZDIRENVIO,
-        vigenciaACT.ZZDIAMEDID,
-        vigenciaACT.ZZLECACTUAL,
-        vigenciaACT.ZZLECANTERI,
-        vigenciaACT.ZZULTCONSUMO,
-        vigenciaACT.ZZCODULTCONS,
-        vigenciaACT.ZZCNSPROMHIST,
-        vigenciaACT.ZZINDINQUILIN,
-        vigenciaACT.ZZMESMORA,
-        vigenciaACT.ZZVLRTER,
-        vigenciaACT.IND_FRADIG,
-        vigenciaACT.ZZTELEFONO,
-        vigenciaACT.ZZCORREO
-      ]);
-    }
-    insertDataVigencia01.dispose();
-    db.execute('''
-    COMMIT;
-    ''');
-  }
-
-  Future<void> guardarDatosVigenciasAnteriores(SpoolDataTable dataSpool) async {
-    //Funciones Generales Tabla z
-    FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
-    //contador
-    int i = 0;
-    //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
-    db.execute('''
-      BEGIN;
-      DROP TABLE IF EXISTS ${dataSpool.nombreTabla};
-      CREATE TABLE ${dataSpool.nombreTabla}(
-        ZZCTACONTR,
-        ZZULTCONSUMO,
-        ZZCODULTCONS
-      );
-    ''');
-    final insertDataVigenciaAnterior = db.prepare('''
-    INSERT INTO ${dataSpool.nombreTabla} (
-        ZZCTACONTR,
-        ZZULTCONSUMO,
-        ZZCODULTCONS
-        ) VALUES (?,?,?)        
-    ''');
-    for (i; i <= dataSpool.dataSpool.length - 1; i++) {
-      String linea = dataSpool.dataSpool[i];
-      SpoolVigenciasAnteriores vigenciaANT = fz.dataSpolAnterior(linea);
-      insertDataVigenciaAnterior.execute([
-        vigenciaANT.ZZCTACONTR,
-        vigenciaANT.ZZULTCONSUMO,
-        vigenciaANT.ZZCODULTCONS
-      ]);
-    }
-    insertDataVigenciaAnterior.dispose();
-    db.execute('''
-    COMMIT;
-    ''');
   }
 }

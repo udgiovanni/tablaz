@@ -29,6 +29,8 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
   Color check06 = const Color(0xFF3949AB);
   Color check07 = const Color(0xFF3949AB);
   Color check08 = const Color(0xFF3949AB);
+  Color check09 = const Color(0xFF3949AB);
+  Color check10 = const Color(0xFF3949AB);
   //Mensajes al usuarios
   String mensaje = '';
   //Rutas de las Carpetas donde estan almacenados los archivos
@@ -48,7 +50,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
           child: Column(
         children: [
           const Encabezado(),
-          //Indicador estado de Carga Archivos de SAP
+          //Indicador Carga archivos Sap Cuenta Contrato
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -65,7 +67,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 ),
               ),
               const SizedBox(width: 20),
-              //Indicador Carga Arhivos de Impresión Vigencia 01
+              //Indicador Carga archivos Sap Interlocutor Comercial
               Container(
                 height: 50,
                 width: 50,
@@ -79,7 +81,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 ),
               ),
               const SizedBox(width: 20),
-              //Indicador Carga de Archivos de Impresión Vigencia 02
+              //Indicador Carga de Archivos de alta de Instalación
               Container(
                 height: 50,
                 width: 50,
@@ -93,7 +95,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 ),
               ),
               const SizedBox(width: 20),
-              //Indicador Carga de Archivos Impresión Vigencia 03
+              //Indicador Carga de Archivos medidor
               Container(
                 height: 50,
                 width: 50,
@@ -107,7 +109,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 ),
               ),
               const SizedBox(width: 20),
-              //Indicador Carga de Archivos Impresión Vigencia 04
+              //Indicador Carga Instalaciones
               Container(
                 height: 50,
                 width: 50,
@@ -121,7 +123,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 ),
               ),
               const SizedBox(width: 20),
-              //Indicador Carga de Archivos Impresión Vigencia 05
+              //Indicador Carga Objeto de Conexion
               Container(
                 height: 50,
                 width: 50,
@@ -135,7 +137,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 ),
               ),
               const SizedBox(width: 20),
-              //Indicador Carga de Archivos de Impresión Vigencia 06
+              //Indicador Carga punto de Suministro
               Container(
                 height: 50,
                 width: 50,
@@ -149,7 +151,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 ),
               ),
               const SizedBox(width: 20),
-              //Indicador Unión de Datos SQLITE
+              //Indicador carga datos Contrato
               Container(
                 height: 50,
                 width: 50,
@@ -158,6 +160,34 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 child: const Center(
                   child: Text(
                     '8',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              //Indicador Spool de Impresion
+              Container(
+                height: 50,
+                width: 50,
+                decoration:
+                    BoxDecoration(color: check09, shape: BoxShape.circle),
+                child: const Center(
+                  child: Text(
+                    '9',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              //Indicador Creacion tabla Z
+              Container(
+                height: 50,
+                width: 50,
+                decoration:
+                    BoxDecoration(color: check10, shape: BoxShape.circle),
+                child: const Center(
+                  child: Text(
+                    '10',
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
@@ -225,7 +255,6 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                 } else {
                                   setState(() {
                                     datosSap = carpetaDatosSAP;
-                                    check01 = Colors.yellow;
                                   });
                                 }
                               }),
@@ -236,32 +265,31 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           width: MediaQuery.of(context).size.width * 0.45,
                           child: ListTile(
                               leading: const Icon(
-                                Icons.folder_open,
+                                Icons.file_copy,
                                 size: 70,
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Vigencia 01',
+                                'Archivo con Data Vigencia 01',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 1 \n $datosV1',
+                                'Seleccione el archivo simplificado del SPool de la Vigencia 1\n $datosV1',
                                 style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
                               ),
                               onTap: () async {
-                                JoinTxtData jtxt = JoinTxtData();
-                                String? carpetaVigencia =
-                                    await FilePicker.platform.getDirectoryPath(
-                                        dialogTitle:
-                                            'Seleccionar Carpeta Vigencia 1');
-                                if (carpetaVigencia == null) {
-                                  showToast('No se selecciono Ninguna Carpeta',
+                                FilePickerResult? archivoVigencia1 =
+                                    await FilePicker.platform.pickFiles(
+                                        allowedExtensions: ['csv', 'txt'],
+                                        dialogTitle: 'Archivo Vigencia 1');
+                                if (archivoVigencia1 == null) {
+                                  showToast('No se selecciono ningun Archivo',
                                       context: context);
                                   setState(() {
                                     check02 = const Color(0xFF3949AB);
@@ -269,8 +297,8 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                   });
                                 } else {
                                   setState(() {
-                                    datosV1 = carpetaVigencia;
-                                    check02 = Colors.yellow;
+                                    datosV1 = archivoVigencia1.files[0].path
+                                        .toString();
                                   });
                                 }
                               }),
@@ -287,32 +315,31 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: ListTile(
                               leading: const Icon(
-                                Icons.folder_open,
+                                Icons.file_copy,
                                 size: 70,
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Facturacion Vigencia 2',
+                                'Archivo Data Vigencia 02',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 2 \n $datosV2',
+                                'Seleccione el archivo simplificado del SPool de la Vigencia 2\n $datosV2',
                                 style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
                               ),
                               onTap: () async {
-                                JoinTxtData jtxt = JoinTxtData();
-                                String? carpetaVigencia =
-                                    await FilePicker.platform.getDirectoryPath(
-                                        dialogTitle:
-                                            'Seleccionar Carpeta Vigencia 2');
-                                if (carpetaVigencia == null) {
-                                  showToast('No se selecciono Ninguna Carpeta',
+                                FilePickerResult? archivoVigencia2 =
+                                    await FilePicker.platform.pickFiles(
+                                        dialogTitle: 'Archivo Vigencia 02',
+                                        allowedExtensions: ['csv', 'txt']);
+                                if (archivoVigencia2 == null) {
+                                  showToast('No se selecciono Ningun arhivo',
                                       context: context);
                                   setState(() {
                                     check03 = const Color(0xFF3949AB);
@@ -320,44 +347,42 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                   });
                                 } else {
                                   setState(() {
-                                    datosV2 = carpetaVigencia;
-                                    check03 = Colors.yellow;
+                                    datosV2 = archivoVigencia2.files[0].path
+                                        .toString();
                                   });
                                 }
                               }),
                         ),
-                        //Containeer Vigencia 02
+                        //Container Vigencia 02
                         Container(
                           height: 50,
                           width: MediaQuery.of(context).size.width * 0.45,
                           child: ListTile(
                               leading: const Icon(
-                                Icons.folder_open,
+                                Icons.file_copy,
                                 size: 70,
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Vigencia 3',
+                                'Archivo Data Vigencia 03',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 3 \n $datosV3',
+                                'Seleccione el archivo simplificado del SPool de la Vigencia 3\n $datosV3',
                                 style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
                               ),
                               onTap: () async {
-                                JoinTxtData jtxt = JoinTxtData();
-                                String? carpetaVigencia =
-                                    await FilePicker.platform.getDirectoryPath(
-                                        dialogTitle:
-                                            'Seleccionar Carpeta Vigencia 3');
-                                if (carpetaVigencia == null) {
-                                  showToast('No se selecciono Ninguna Carpeta',
+                                FilePickerResult? archivoVigencia3 =
+                                    await FilePicker.platform.pickFiles(
+                                        dialogTitle: 'Archivo Vigencia 3');
+                                if (archivoVigencia3 == null) {
+                                  showToast('No se selecciono Ningun Archivo',
                                       context: context);
                                   setState(() {
                                     check04 = const Color(0xFF3949AB);
@@ -365,8 +390,8 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                   });
                                 } else {
                                   setState(() {
-                                    datosV3 = carpetaVigencia;
-                                    check04 = Colors.yellow;
+                                    datosV3 = archivoVigencia3.files[0].path
+                                        .toString();
                                   });
                                 }
                               }),
@@ -383,32 +408,31 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: ListTile(
                               leading: const Icon(
-                                Icons.folder_open,
+                                Icons.file_copy,
                                 size: 70,
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Vigencia 04',
+                                'Archivo Data Vigencia 04',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 4 \n $datosV4',
+                                'Seleccione el archivo simplificado del SPool de la Vigencia 4\n $datosV4',
                                 style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
                               ),
                               onTap: () async {
-                                JoinTxtData jtxt = JoinTxtData();
-                                String? carpetaVigencia =
-                                    await FilePicker.platform.getDirectoryPath(
-                                        dialogTitle:
-                                            'Seleccionar Carpeta Vigencia 04');
-                                if (carpetaVigencia == null) {
-                                  showToast('No se selecciono Ninguna Carpeta',
+                                FilePickerResult? archivoVigencia4 =
+                                    await FilePicker.platform.pickFiles(
+                                        dialogTitle: 'Archivo Vigencia 04',
+                                        allowedExtensions: ['csv', 'txt']);
+                                if (archivoVigencia4 == null) {
+                                  showToast('No se selecciono ningun Archivo',
                                       context: context);
                                   setState(() {
                                     check02 = const Color(0xFF3949AB);
@@ -416,8 +440,8 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                   });
                                 } else {
                                   setState(() {
-                                    datosV4 = carpetaVigencia;
-                                    check05 = Colors.yellow;
+                                    datosV4 = archivoVigencia4.files[0].path
+                                        .toString();
                                   });
                                 }
                               }),
@@ -428,19 +452,19 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           width: MediaQuery.of(context).size.width * 0.45,
                           child: ListTile(
                               leading: const Icon(
-                                Icons.folder_open,
+                                Icons.file_copy,
                                 size: 70,
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Vigencia 5',
+                                'Archivo Data Vigencia 05',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 5 \n $datosV5',
+                                'Seleccione el archivo simplificado del SPool de la Vigencia 5\n $datosV5',
                                 style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
@@ -448,12 +472,13 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                               ),
                               onTap: () async {
                                 JoinTxtData jtxt = JoinTxtData();
-                                String? carpetaVigencia =
-                                    await FilePicker.platform.getDirectoryPath(
+                                FilePickerResult? archivoVigencia5 =
+                                    await FilePicker.platform.pickFiles(
                                         dialogTitle:
-                                            'Seleccionar Carpeta Vigencia 5');
-                                if (carpetaVigencia == null) {
-                                  showToast('No se selecciono Ninguna Carpeta',
+                                            'Seleccionar Archivo Vigencia 5',
+                                        allowedExtensions: ['csv', 'txt']);
+                                if (archivoVigencia5 == null) {
+                                  showToast('No se selecciono Ningun Archivo',
                                       context: context);
                                   setState(() {
                                     check06 = const Color(0xFF3949AB);
@@ -461,8 +486,8 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                   });
                                 } else {
                                   setState(() {
-                                    datosV5 = carpetaVigencia;
-                                    check06 = Colors.yellow;
+                                    datosV5 = archivoVigencia5.files[0].path
+                                        .toString();
                                   });
                                 }
                               }),
@@ -479,32 +504,31 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: ListTile(
                               leading: const Icon(
-                                Icons.folder_open,
+                                Icons.file_copy,
                                 size: 70,
                                 color: Colors.white,
                               ),
                               title: const Text(
-                                'Folder Datos Vigencia 6',
+                                'Archivo Data Vigencia 06',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'Seleccione la Carpeta donde están almacenados los datos de Lectura de la Vigencia 6 \n $datosV6',
+                                'Seleccione el archivo simplificado del SPool de la Vigencia 6\n $datosV6',
                                 style: const TextStyle(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
                               ),
                               onTap: () async {
-                                JoinTxtData jtxt = JoinTxtData();
-                                String? carpetaVigencia =
-                                    await FilePicker.platform.getDirectoryPath(
-                                        dialogTitle:
-                                            'Seleccionar Carpeta Vigencia 6');
-                                if (carpetaVigencia == null) {
-                                  showToast('No se selecciono Ninguna Carpeta',
+                                FilePickerResult? archivoVigencia6 =
+                                    await FilePicker.platform.pickFiles(
+                                        dialogTitle: 'Archivo Vigencia 6',
+                                        allowedExtensions: ['.csv', '.txt']);
+                                if (archivoVigencia6 == null) {
+                                  showToast('No se selecciono Ningun Archivo',
                                       context: context);
                                   setState(() {
                                     check07 = const Color(0xFF3949AB);
@@ -512,13 +536,12 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                   });
                                 } else {
                                   setState(() {
-                                    datosV6 = carpetaVigencia;
-                                    check07 = Colors.yellow;
+                                    datosV6 = archivoVigencia6.files[0].path
+                                        .toString();
                                   });
                                 }
                               }),
                         ),
-                        //Containeer Carga de Datos de Facturación Vigencia 01
                       ],
                     )
                   ],
@@ -566,85 +589,6 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           check01 = Colors.red;
                         });
                       }
-                      //Ejecutando la unión de los archivos de Impresión Vigencia 1
-                      try {
-                        await jTXT.joinArchivosImpresion(datosV1, 'V1');
-                        setState(() {
-                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 2';
-                        });
-                      } catch (e) {
-                        setState(() {
-                          mensaje =
-                              'Error durante la unión de los archivos de la Vigencia 1: "$e';
-                          check01 = Colors.red;
-                        });
-                      }
-                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 2
-                      try {
-                        await jTXT.joinArchivosImpresion(datosV2, 'V2');
-                        setState(() {
-                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 3';
-                        });
-                      } catch (e) {
-                        setState(() {
-                          mensaje =
-                              'Error durante la unión de los archivos de la Vigencia 2: "$e';
-                          check01 = Colors.red;
-                        });
-                      }
-                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 3
-                      try {
-                        await jTXT.joinArchivosImpresion(datosV3, 'V3');
-                        setState(() {
-                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 4';
-                        });
-                      } catch (e) {
-                        setState(() {
-                          mensaje =
-                              'Error durante la unión de los archivos de la Vigencia 3: "$e';
-                          check01 = Colors.red;
-                        });
-                      }
-                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 4
-                      try {
-                        await jTXT.joinArchivosImpresion(datosV4, 'V4');
-                        setState(() {
-                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 5';
-                        });
-                      } catch (e) {
-                        setState(() {
-                          mensaje =
-                              'Error durante la unión de los archivos de la Vigencia 4: "$e';
-                          check01 = Colors.red;
-                        });
-                      }
-                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 5
-                      try {
-                        await jTXT.joinArchivosImpresion(datosV5, 'V5');
-                        setState(() {
-                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 6';
-                        });
-                      } catch (e) {
-                        setState(() {
-                          mensaje =
-                              'Error durante la unión de los archivos de la Vigencia 5: "$e';
-                          check01 = Colors.red;
-                        });
-                      }
-                      //Ejecutando la unión de los ardhivos de Impresión Vigencia 5
-                      try {
-                        await jTXT.joinArchivosImpresion(datosV6, 'V6');
-                        setState(() {
-                          mensaje = 'Iniciando Carga de Datos de SAP';
-                        });
-                      } catch (e) {
-                        setState(() {
-                          mensaje =
-                              'Error durante la unión de los archivos de la Vigencia 6: "$e';
-                          check01 = Colors.red;
-                        });
-                      }
-                      //Carga de Datos de la Tabla
                     }
                     //Creando y/o Cargando base de Datos
                     FuncionesLoadDatabase fzLoadDB = FuncionesLoadDatabase();
@@ -657,6 +601,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           fzLoadDB.guardarDatosCuentasDB, dataAccount);
                       setState(() {
                         mensaje = 'Datos cuentas (ACCOUNT) almacenado en la DB';
+                        check01 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
@@ -673,6 +618,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       await compute(fzLoadDB.guardarMedidorDB, dataDevice);
                       setState(() {
                         mensaje = 'Datos Medidor (DEVICE) almacenado en la DB';
+                        check02 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
@@ -691,6 +637,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       setState(() {
                         mensaje =
                             'Datos Instalación (INSTLN) almacenado en la DB';
+                        check03 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
@@ -707,6 +654,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       await compute(
                           fzLoadDB.guardarAltaInstalacionDB, dataMoveIN);
                       setState(() {
+                        check04 = Colors.green;
                         mensaje =
                             'Datos Alta de Instalación (MOVE-IN) almacenado en la DB';
                       });
@@ -725,6 +673,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       await compute(
                           fzLoadDB.guardarObjetoConexionDB, dataConnObj);
                       setState(() {
+                        check05 = Colors.green;
                         mensaje =
                             'Datos Objeto de conexión (CONNOBJ) almacenado en la DB';
                       });
@@ -743,6 +692,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       await compute(
                           fzLoadDB.guardarDatosIntComercialDB, dataPartner);
                       setState(() {
+                        check06 = Colors.green;
                         mensaje =
                             'Datos Interlocutor Comercial (PARTNER) almacenado en la DB';
                       });
@@ -763,7 +713,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       setState(() {
                         mensaje =
                             'Datos Punto de Suministros (PREMISE) almacenado en la DB';
-                        check01 = Colors.green;
+                        check07 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
@@ -773,103 +723,100 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       });
                     }
                     //Cargando Datos Contrato (EVER)
-                    try{
-                      final List<String> dataEver = await compute (fzLoadDB.)
-                    }
-                    catch(e){
-
-                    }
-                    //Cargando Datos Ultima Vigencia
                     try {
-                      final List<String> datosVigenciaActual = await compute(
+                      final List<String> dataEver = await compute(
                           fzLoadDB.txtToListStringANSI,
-                          '$datosV1\\TABLE_V1.TXT');
-                      await compute(fzLoadDB.guardarDatosVigenciaActual,
-                          datosVigenciaActual);
+                          '$datosSap\\TABLE_EVER.TXT');
+                      await compute(fzLoadDB.guardarContrato, dataEver);
                       setState(() {
-                        mensaje = 'Datos Vigencia Actual Almacenados en la DB';
-                        check02 = Colors.green;
+                        mensaje = 'Datos de Contratos Almacenados en la DB';
+                        check08 = Colors.green;
+                      });
+                    } catch (e) {
+                      mensaje =
+                          'Error durante la Lectura o Almacenamiento del Arhivo de contratos: $e';
+                      check02 = Colors.red;
+                    }
+                    //Cargando Datos Spool Vigencia 01
+                    try {
+                      final List<String> datosVigencia =
+                          await compute(fzLoadDB.txtToListStringANSI, datosV1);
+                      SpoolDataTable spoolDataTable = SpoolDataTable();
+                      spoolDataTable.nombreTabla = 'VIG01';
+                      spoolDataTable.dataSpool = datosVigencia;
+                      await compute(fzLoadDB.loadDataSpool, spoolDataTable);
+                      setState(() {
+                        mensaje = 'Datos Vigencia 01 Almacenados en la DB';
                       });
                     } catch (e) {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 1: $e';
-                        check02 = Colors.red;
+                        check09 = Colors.red;
                       });
                     }
                     //Cargando Datos Vigencia 2
                     try {
-                      final List<String> datosSpoolV2 = await compute(
-                          fzLoadDB.txtToListStringANSI,
-                          '$datosV2\\TABLE_V2.TXT');
-                      SpoolDataTable dataSpoolV2 = SpoolDataTable();
-                      dataSpoolV2.dataSpool = datosSpoolV2;
-                      dataSpoolV2.nombreTabla = 'VIGENCIA02';
-                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
-                          dataSpoolV2);
+                      final List<String> datosVigencia =
+                          await compute(fzLoadDB.txtToListStringANSI, datosV2);
+                      SpoolDataTable spoolDataTable = SpoolDataTable();
+                      spoolDataTable.nombreTabla = 'VIG02';
+                      spoolDataTable.dataSpool = datosVigencia;
+                      await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
                         mensaje = 'Datos Vigencia 2 Almacenados en la DB';
-                        check03 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 2: $e';
-                        check03 = Colors.red;
+                        check09 = Colors.red;
                       });
                     }
                     //Cargando Datos Vigencia 3
                     try {
-                      final List<String> datosSpoolV3 = await compute(
-                          fzLoadDB.txtToListStringANSI,
-                          '$datosV3\\TABLE_V3.TXT');
-                      SpoolDataTable dataSpoolV3 = SpoolDataTable();
-                      dataSpoolV3.dataSpool = datosSpoolV3;
-                      dataSpoolV3.nombreTabla = 'VIGENCIA03';
-                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
-                          dataSpoolV3);
+                      final List<String> datosVigencia =
+                          await compute(fzLoadDB.txtToListStringANSI, datosV3);
+                      SpoolDataTable spoolDataTable = SpoolDataTable();
+                      spoolDataTable.nombreTabla = 'VIG03';
+                      spoolDataTable.dataSpool = datosVigencia;
+                      await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
                         mensaje = 'Datos Vigencia 3 Almacenados en la DB';
-                        check04 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 1: $e';
-                        check04 = Colors.red;
+                        check09 = Colors.red;
                       });
                     }
                     //Cargando Datos Ultima Vigencia 4
                     try {
-                      final List<String> datosSpoolV4 = await compute(
-                          fzLoadDB.txtToListStringANSI,
-                          '$datosV4\\TABLE_V4.TXT');
-                      SpoolDataTable dataSpoolV4 = SpoolDataTable();
-                      dataSpoolV4.dataSpool = datosSpoolV4;
-                      dataSpoolV4.nombreTabla = 'VIGENCIA04';
-                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
-                          dataSpoolV4);
+                      final List<String> datosVigencia =
+                          await compute(fzLoadDB.txtToListStringANSI, datosV4);
+                      SpoolDataTable spoolDataTable = SpoolDataTable();
+                      spoolDataTable.nombreTabla = 'VIG04';
+                      spoolDataTable.dataSpool = datosVigencia;
+                      await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
                         mensaje = 'Datos Vigencia 4 Almacenados en la DB';
-                        check05 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 1: $e';
-                        check05 = Colors.red;
+                        check09 = Colors.red;
                       });
                     }
                     //Cargando Datos Vigencia 5
                     try {
-                      final List<String> datosSpoolV5 = await compute(
-                          fzLoadDB.txtToListStringANSI,
-                          '$datosV5\\TABLE_V5.TXT');
-                      SpoolDataTable dataSpoolV5 = SpoolDataTable();
-                      dataSpoolV5.dataSpool = datosSpoolV5;
-                      dataSpoolV5.nombreTabla = 'VIGENCIA05';
-                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
-                          dataSpoolV5);
+                      final List<String> datosVigencia =
+                          await compute(fzLoadDB.txtToListStringANSI, datosV5);
+                      SpoolDataTable spoolDataTable = SpoolDataTable();
+                      spoolDataTable.nombreTabla = 'VIG01';
+                      spoolDataTable.dataSpool = datosVigencia;
+                      await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
                         mensaje = 'Datos Vigencia 5 Almacenados en la DB';
                         check06 = Colors.green;
@@ -878,28 +825,26 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 5: $e';
-                        check06 = Colors.red;
+                        check09 = Colors.red;
                       });
                     }
                     //Cargando Datos Vigencia 6
                     try {
-                      final List<String> dataSpoolV6 = await compute(
-                          fzLoadDB.txtToListStringANSI,
-                          '$datosV6\\TABLE_V6.TXT');
-                      SpoolDataTable datosSpoolV6 = SpoolDataTable();
-                      datosSpoolV6.dataSpool = dataSpoolV6;
-                      datosSpoolV6.nombreTabla = 'VIGENCIA06';
-                      await compute(fzLoadDB.guardarDatosVigenciasAnteriores,
-                          datosSpoolV6);
+                      final List<String> datosVigencia =
+                          await compute(fzLoadDB.txtToListStringANSI, datosV6);
+                      SpoolDataTable spoolDataTable = SpoolDataTable();
+                      spoolDataTable.nombreTabla = 'VIG06';
+                      spoolDataTable.dataSpool = datosVigencia;
+                      await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
                         mensaje = 'Datos Vigencia 6 Almacenados en la DB';
-                        check07 = Colors.green;
+                        check09 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento del Arhivo de Impresión de la Vigencia 6: $e';
-                        check07 = Colors.red;
+                        check09 = Colors.red;
                       });
                     }
                     //Generando Uniones de la Tabla Z
@@ -908,14 +853,14 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       setState(() {
                         mensaje = 'Se ha Finalizado la Creación de la Tabla Z';
                         cargando = false;
-                        check08 = Colors.green;
+                        check10 = Colors.green;
                       });
                     } catch (e) {
                       setState(() {
                         mensaje =
                             'Error durante la Unión de los Campos de la Tabla Z: $e';
                         cargando = false;
-                        check08 = Colors.red;
+                        check10 = Colors.red;
                       });
                     }
                   },
