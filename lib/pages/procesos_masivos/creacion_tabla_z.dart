@@ -12,7 +12,6 @@ import 'package:tablaz/ui/encabezado.dart';
 
 class CreacionTablaZ extends StatefulWidget {
   CreacionTablaZ({Key? key}) : super(key: key);
-
   @override
   _CreacionTablaZState createState() => _CreacionTablaZState();
 }
@@ -580,7 +579,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       try {
                         await jTXT.joinReportesSAP(datosSap);
                         setState(() {
-                          mensaje = 'Uniendo Arhivos de Impresión Vigencia 1';
+                          mensaje = 'Parseando y Cargando Data Table Account';
                         });
                       } catch (e) {
                         setState(() {
@@ -624,7 +623,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento de la Tabla Device: $e';
-                        check01 = Colors.red;
+                        check02 = Colors.red;
                       });
                     }
                     //Leyendo txt y Cargando Datos de Instalación (INSTLN)
@@ -643,7 +642,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       setState(() {
                         mensaje =
                             'Error durante la Lectura o Almacenamiento de la Tabla INSTLN: $e';
-                        check01 = Colors.red;
+                        check03 = Colors.red;
                       });
                     }
                     //Leyendo txt y Cargando Datos de la Alta de Instalación (MOVE-IN)
@@ -735,7 +734,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                     } catch (e) {
                       mensaje =
                           'Error durante la Lectura o Almacenamiento del Arhivo de contratos: $e';
-                      check02 = Colors.red;
+                      check08 = Colors.red;
                     }
                     //Cargando Datos Spool Vigencia 01
                     try {
@@ -814,7 +813,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> datosVigencia =
                           await compute(fzLoadDB.txtToListStringANSI, datosV5);
                       SpoolDataTable spoolDataTable = SpoolDataTable();
-                      spoolDataTable.nombreTabla = 'VIG01';
+                      spoolDataTable.nombreTabla = 'VIG05';
                       spoolDataTable.dataSpool = datosVigencia;
                       await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {

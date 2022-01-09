@@ -217,6 +217,26 @@ class FuncionesGeneralesTablaZ {
 
     return v0;
   }
+
+  SpoolVigenciaActual dataSpoolLoad(String linea) {
+    SpoolVigenciaActual dataSpool = SpoolVigenciaActual();
+    List<String> lineaFrag = linea.split(',');
+    dataSpool.ZZCTACONTR = lineaFrag[0];
+    dataSpool.ZZDIRENVIO = lineaFrag[1];
+    dataSpool.ZZDIAMEDID = lineaFrag[2];
+    dataSpool.ZZLECACTUAL = lineaFrag[3];
+    dataSpool.ZZLECANTERI = lineaFrag[4];
+    dataSpool.ZZULTCONSUMO = lineaFrag[5];
+    dataSpool.ZZCODULTCONS = lineaFrag[6];
+    dataSpool.ZZCNSPROMHIST = lineaFrag[7];
+    dataSpool.ZZINDINQUILIN = lineaFrag[8];
+    dataSpool.ZZMESMORA = lineaFrag[9];
+    dataSpool.ZZVLRTER = lineaFrag[10];
+    dataSpool.IND_FRADIG = lineaFrag[11];
+    dataSpool.ZZTELEFONO = lineaFrag[12];
+    dataSpool.ZZCORREO = lineaFrag[13];
+    return dataSpool;
+  }
 }
 
 String fechaNormal(String fecha) {

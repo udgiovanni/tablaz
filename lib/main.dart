@@ -9,6 +9,7 @@ import 'dart:ffi';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   sqfliteFfiInit();
   //Cargando el Driver de SQLite
   DynamicLibrary _openWindows() {
