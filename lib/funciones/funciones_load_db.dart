@@ -1,10 +1,7 @@
 // ignore_for_file: unnecessary_string_interpolations
-//Importando las librerias a Utilizar
-//dart:io facilita el trabajo con archivos
 import 'dart:io';
 //dart:convert facilita la conversion de datos
 import 'dart:convert';
-import 'package:tablaz/clases/database_tz.dart';
 import 'package:tablaz/funciones/cargando_data.dart';
 import 'package:tablaz/objetos/objetos.dart';
 import 'package:sqlite3/sqlite3.dart';
@@ -16,8 +13,6 @@ class FuncionesLoadDatabase {
     String dataCargad = dataLoad.readAsStringSync();
     String replace1 = dataCargad.replaceAll('"', ' ');
     String dataCargada = replace1.replaceAll("'", " ");
-    //var bytesTxt = await dataLoad.readAsBytes();
-    //String dataCargada = String.fromCharCodes(bytesTxt);
     LineSplitter lineasDataCargada = const LineSplitter();
     List<String> lineasCargadas = lineasDataCargada.convert(dataCargada);
     List<String> linean = [];
@@ -44,16 +39,14 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla cuentas
-  Future<void> guardarDatosCuentasDB(List<String> datosCuentas) async {
+  Future<void> guardarDatosCuentasDB(DatatoDB datoCuentas) async {
     //contador
     int i = 0;
-    //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoCuentas.ruta}\\database.sqlite3');
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
+    List<String> datosCuentas = datoCuentas.data;
     //Eliminar tabla si exiSTE y crear la nueva tabla
-
     db.execute('''
     BEGIN;
     DROP TABLE IF EXISTS "ACCOUNT";
@@ -158,13 +151,12 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla InterlocutorComercial
-  Future<void> guardarDatosIntComercialDB(
-      List<String> datosInrComercial) async {
+  Future<void> guardarDatosIntComercialDB(DatatoDB datoInrComercial) async {
     //contador
     int i = 0;
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoInrComercial.ruta}\\database.sqlite3');
+    List<String> datosInrComercial = datoInrComercial.data;
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
@@ -285,13 +277,12 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla Alta Instalacion
-  Future<void> guardarAltaInstalacionDB(
-      List<String> datosAltasInstalacion) async {
+  Future<void> guardarAltaInstalacionDB(DatatoDB datoAltasInstalacion) async {
     //contador
     int i = 0;
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoAltasInstalacion.ruta}\\database.sqlite3');
+    List<String> datosAltasInstalacion = datoAltasInstalacion.data;
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
@@ -355,12 +346,12 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla Medidores
-  Future<void> guardarMedidorDB(List<String> datosMedidores) async {
+  Future<void> guardarMedidorDB(DatatoDB datoMedidores) async {
     //contador
     int i = 0;
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoMedidores.ruta}\\database.sqlite3');
+    List<String> datosMedidores = datoMedidores.data;
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
@@ -454,12 +445,12 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla Instalaciones
-  Future<void> guardarInstalacionesDB(List<String> datosInstalaciones) async {
+  Future<void> guardarInstalacionesDB(DatatoDB datoInstalaciones) async {
     //contador
     int i = 0;
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoInstalaciones.ruta}\\database.sqlite3');
+    List<String> datosInstalaciones = datoInstalaciones.data;
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
@@ -559,12 +550,12 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla Objeto de Conexion
-  Future<void> guardarObjetoConexionDB(List<String> datosObjetoConexion) async {
+  Future<void> guardarObjetoConexionDB(DatatoDB datoObjetoConexion) async {
     //contador
     int i = 0;
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoObjetoConexion.ruta}\\database.sqlite3');
+    List<String> datosObjetoConexion = datoObjetoConexion.data;
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
@@ -651,13 +642,12 @@ class FuncionesLoadDatabase {
   }
 
 //Funcion que almacena en la DB los datos de la tabla Instalaciones
-  Future<void> guardarPuntoSumiinistroDB(
-      List<String> datosPuntoSuministro) async {
+  Future<void> guardarPuntoSumiinistroDB(DatatoDB datoPuntoSuministro) async {
     //contador
     int i = 0;
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoPuntoSuministro.ruta}\\database.sqlite3');
+    List<String> datosPuntoSuministro = datoPuntoSuministro.data;
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
@@ -739,12 +729,12 @@ class FuncionesLoadDatabase {
 
 // Función que almacena en la DB los datos de la Tabla Contrato (EVER)
 
-  Future<void> guardarContrato(List<String> datosContrato) async {
+  Future<void> guardarContrato(DatatoDB datoContrato) async {
     //contador
     int i = 0;
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${datoContrato.ruta}\\database.sqlite3');
+    List<String> datosContrato = datoContrato.data;
     //Funciones de soporte
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     //Eliminar tabla si exiSTE y crear la nueva tabla
@@ -847,8 +837,7 @@ class FuncionesLoadDatabase {
 
   //Carga de Datos Spool
   Future<void> loadDataSpool(SpoolDataTable dataSpool) async {
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('${dataSpool.ruta}\\database.sqlite3');
     FuncionesGeneralesTablaZ fz = FuncionesGeneralesTablaZ();
     db.execute('''
     BEGIN;
@@ -929,10 +918,9 @@ class FuncionesLoadDatabase {
     ''');
   }
 
-  Future<void> crearTablaZ(String cualquierCosa) async {
+  Future<void> crearTablaZ(String ruta) async {
     //Database
-    DatabaseClass dbTBZ = DatabaseClass();
-    Database db = await dbTBZ.getDatabase();
+    final db = sqlite3.open('$ruta\\database.sqlite3');
     db.execute('''
       BEGIN;
       DROP TABLE IF EXISTS "TABLA_Z";
@@ -1160,17 +1148,17 @@ class FuncionesLoadDatabase {
       COMMIT;
       ''');
     db.execute('''
-         UPDATE "TABLA_Z"
-         SET "PAR-NAME_ORG1" = T."NAME_ORG1",
+      UPDATE "TABLA_Z"
+          SET "PAR-NAME_ORG1" = T."NAME_ORG1",
             "PAR-BU_SORT1" = T."BU_SORT1",
             "PAR-TEL_NUMBER" = T."TEL_NUMBER",
             "PAR-NAME_FIRST" = T."NAME_FIRST",
             "PAR-NAME_LAST" = T."NAME_LAST"
-        FROM (SELECT * 
-              FROM PARTNER 
-            GROUP BY PARTNER."PARTNER"
-            ORDER BY PARTNER."TEL_NUMBER" DESC)
-        WHERE "TABLA_Z"."PAR-PARTNER" = PARTNER
+        FROM ((SELECT PR.* 
+              FROM "PARTNER" PR 
+            GROUP BY PR."PARTNER"
+            ORDER BY PR."TEL_NUMBER" DESC)) AS T
+        WHERE "TABLA_Z"."PAR-PARTNER" = T."PARTNER"
           AND "TABLA_Z"."PAR-NAME_ORG1" IS NULL 
           AND "TABLA_Z"."PAR-NAME_FIRST" IS NULL;
           
@@ -1387,6 +1375,7 @@ class FuncionesLoadDatabase {
         COMMIT;''');
     db.execute('''
       -- 7 MEDIDOR
+      BEGIN;
       UPDATE "TABLA_Z"
         SET "DEV-EQUNR" = T."EQUNR",
           "DEV-HERST" = T."HERST",

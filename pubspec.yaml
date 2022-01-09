@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   path_provider: ^2.0.8
   sqlite3: ^1.4.0
-  sqflite_common: ^2.0.1+1
+  sqlite3_library_windows: ^2.1.0
   sqflite_common_ffi: ^2.1.0
   process_run: ^0.12.2+2
   csv: ^5.0.1

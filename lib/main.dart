@@ -2,36 +2,30 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:sqlite3/open.dart';
+import 'package:sqlite3/sqlite3.dart';
+import 'package:sqlite3_library_windows/sqlite3_library_windows.dart';
 import 'package:tablaz/pages/home.dart';
 import 'package:window_size/window_size.dart';
-import 'dart:ffi';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqlite3/open.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  sqfliteFfiInit();
-  //Cargando el Driver de SQLite
-  DynamicLibrary _openWindows() {
-    final libraryNextToScript = File('assets/sqlite3.dll');
-    return DynamicLibrary.open(libraryNextToScript.path);
-  }
-
-  open.overrideFor(OperatingSystem.windows, _openWindows);
-
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Tabla Z Catastro de Usuarios');
     setWindowMinSize(const Size(1000, 700));
     setWindowMaxSize(Size.infinite);
   }
+  open.overrideFor(OperatingSystem.windows, openSQLiteOnWindows);
 
+  final db = sqlite3.openInMemory();
+  db.dispose();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Home(title: 'Catastro de Usuarios Home'),
+      home: const Home(title: ''),
     );
   }
 }

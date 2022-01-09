@@ -1,22 +1,25 @@
-// ignore: dead_code
 // ignore_for_file: dead_code, sized_box_for_whitespace
+
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tablaz/funciones/funciones_join_txt.dart';
 import 'package:tablaz/funciones/funciones_load_db.dart';
 import 'package:tablaz/objetos/objetos.dart';
 import 'package:tablaz/ui/encabezado.dart';
 
 class CreacionTablaZ extends StatefulWidget {
-  CreacionTablaZ({Key? key}) : super(key: key);
+  const CreacionTablaZ({Key? key}) : super(key: key);
   @override
   _CreacionTablaZState createState() => _CreacionTablaZState();
 }
 
 class _CreacionTablaZState extends State<CreacionTablaZ> {
+  //Ruta donde se almacena la base de datos SQLITE
   //Colores
   Color fondo = const Color(0xFF091d36);
   //Indicadores de estado de Proceso
@@ -239,7 +242,6 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                     fontSize: 14),
                               ),
                               onTap: () async {
-                                JoinTxtData jtxt = JoinTxtData();
                                 String? carpetaDatosSAP =
                                     await FilePicker.platform.getDirectoryPath(
                                         dialogTitle:
@@ -470,7 +472,6 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                                     fontSize: 14),
                               ),
                               onTap: () async {
-                                JoinTxtData jtxt = JoinTxtData();
                                 FilePickerResult? archivoVigencia5 =
                                     await FilePicker.platform.pickFiles(
                                         dialogTitle:
@@ -549,6 +550,8 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 TextButton(
                   onPressed: () async {
                     JoinTxtData jTXT = JoinTxtData();
+                    //Ruta Database
+                    String databasePath = await rutaDB();
                     if (datosSap == '' ||
                         datosV1 == '' ||
                         datosV2 == '' ||
@@ -596,8 +599,10 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataAccount = await compute(
                           fzLoadDB.txtToListString,
                           '$datosSap\\TABLE_ACCOUNT.TXT');
-                      await compute(
-                          fzLoadDB.guardarDatosCuentasDB, dataAccount);
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataAccount;
+                      dataDB.ruta = await rutaDB();
+                      await compute(fzLoadDB.guardarDatosCuentasDB, dataDB);
                       setState(() {
                         mensaje = 'Datos cuentas (ACCOUNT) almacenado en la DB';
                         check01 = Colors.green;
@@ -614,7 +619,10 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataDevice = await compute(
                           fzLoadDB.txtToListString,
                           '$datosSap\\TABLE_DEVICE.TXT');
-                      await compute(fzLoadDB.guardarMedidorDB, dataDevice);
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataDevice;
+                      dataDB.ruta = await rutaDB();
+                      await compute(fzLoadDB.guardarMedidorDB, dataDB);
                       setState(() {
                         mensaje = 'Datos Medidor (DEVICE) almacenado en la DB';
                         check02 = Colors.green;
@@ -631,8 +639,10 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataInstln = await compute(
                           fzLoadDB.txtToListString,
                           '$datosSap\\TABLE_INSTLN.TXT');
-                      await compute(
-                          fzLoadDB.guardarInstalacionesDB, dataInstln);
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataInstln;
+                      dataDB.ruta = await rutaDB();
+                      await compute(fzLoadDB.guardarInstalacionesDB, dataDB);
                       setState(() {
                         mensaje =
                             'Datos Instalación (INSTLN) almacenado en la DB';
@@ -650,8 +660,10 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataMoveIN = await compute(
                           fzLoadDB.txtToListString,
                           '$datosSap\\TABLE_MOVE.TXT');
-                      await compute(
-                          fzLoadDB.guardarAltaInstalacionDB, dataMoveIN);
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataMoveIN;
+                      dataDB.ruta = await rutaDB();
+                      await compute(fzLoadDB.guardarAltaInstalacionDB, dataDB);
                       setState(() {
                         check04 = Colors.green;
                         mensaje =
@@ -669,8 +681,10 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataConnObj = await compute(
                           fzLoadDB.txtToListString,
                           '$datosSap\\TABLE_OBJCON.TXT');
-                      await compute(
-                          fzLoadDB.guardarObjetoConexionDB, dataConnObj);
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataConnObj;
+                      dataDB.ruta = await rutaDB();
+                      await compute(fzLoadDB.guardarObjetoConexionDB, dataDB);
                       setState(() {
                         check05 = Colors.green;
                         mensaje =
@@ -688,8 +702,11 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataPartner = await compute(
                           fzLoadDB.txtToListString,
                           '$datosSap\\TABLE_PARTNER.TXT');
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataPartner;
+                      dataDB.ruta = await rutaDB();
                       await compute(
-                          fzLoadDB.guardarDatosIntComercialDB, dataPartner);
+                          fzLoadDB.guardarDatosIntComercialDB, dataDB);
                       setState(() {
                         check06 = Colors.green;
                         mensaje =
@@ -707,8 +724,10 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataPremise = await compute(
                           fzLoadDB.txtToListString,
                           '$datosSap\\TABLE_PREMISE.TXT');
-                      await compute(
-                          fzLoadDB.guardarPuntoSumiinistroDB, dataPremise);
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataPremise;
+                      dataDB.ruta = await rutaDB();
+                      await compute(fzLoadDB.guardarPuntoSumiinistroDB, dataDB);
                       setState(() {
                         mensaje =
                             'Datos Punto de Suministros (PREMISE) almacenado en la DB';
@@ -726,7 +745,10 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       final List<String> dataEver = await compute(
                           fzLoadDB.txtToListStringANSI,
                           '$datosSap\\TABLE_EVER.TXT');
-                      await compute(fzLoadDB.guardarContrato, dataEver);
+                      DatatoDB dataDB = DatatoDB();
+                      dataDB.data = dataEver;
+                      dataDB.ruta = await rutaDB();
+                      await compute(fzLoadDB.guardarContrato, dataDB);
                       setState(() {
                         mensaje = 'Datos de Contratos Almacenados en la DB';
                         check08 = Colors.green;
@@ -743,6 +765,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       SpoolDataTable spoolDataTable = SpoolDataTable();
                       spoolDataTable.nombreTabla = 'VIG01';
                       spoolDataTable.dataSpool = datosVigencia;
+                      spoolDataTable.ruta = await rutaDB();
                       await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
                         mensaje = 'Datos Vigencia 01 Almacenados en la DB';
@@ -761,6 +784,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                       SpoolDataTable spoolDataTable = SpoolDataTable();
                       spoolDataTable.nombreTabla = 'VIG02';
                       spoolDataTable.dataSpool = datosVigencia;
+                      spoolDataTable.ruta = await rutaDB();
                       await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
                         mensaje = 'Datos Vigencia 2 Almacenados en la DB';
@@ -778,6 +802,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           await compute(fzLoadDB.txtToListStringANSI, datosV3);
                       SpoolDataTable spoolDataTable = SpoolDataTable();
                       spoolDataTable.nombreTabla = 'VIG03';
+                      spoolDataTable.ruta = await rutaDB();
                       spoolDataTable.dataSpool = datosVigencia;
                       await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
@@ -796,6 +821,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           await compute(fzLoadDB.txtToListStringANSI, datosV4);
                       SpoolDataTable spoolDataTable = SpoolDataTable();
                       spoolDataTable.nombreTabla = 'VIG04';
+                      spoolDataTable.ruta = await rutaDB();
                       spoolDataTable.dataSpool = datosVigencia;
                       await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
@@ -814,6 +840,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           await compute(fzLoadDB.txtToListStringANSI, datosV5);
                       SpoolDataTable spoolDataTable = SpoolDataTable();
                       spoolDataTable.nombreTabla = 'VIG05';
+                      spoolDataTable.ruta = await rutaDB();
                       spoolDataTable.dataSpool = datosVigencia;
                       await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
@@ -833,6 +860,7 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           await compute(fzLoadDB.txtToListStringANSI, datosV6);
                       SpoolDataTable spoolDataTable = SpoolDataTable();
                       spoolDataTable.nombreTabla = 'VIG06';
+                      spoolDataTable.ruta = await rutaDB();
                       spoolDataTable.dataSpool = datosVigencia;
                       await compute(fzLoadDB.loadDataSpool, spoolDataTable);
                       setState(() {
@@ -848,7 +876,8 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                     }
                     //Generando Uniones de la Tabla Z
                     try {
-                      await compute(fzLoadDB.crearTablaZ, '');
+                      String ruta = await rutaDB();
+                      await compute(fzLoadDB.crearTablaZ, ruta);
                       setState(() {
                         mensaje = 'Se ha Finalizado la Creación de la Tabla Z';
                         cargando = false;
@@ -878,5 +907,11 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
         ],
       )),
     );
+  }
+
+  Future<String> rutaDB() async {
+    final Directory documentosApp = await getApplicationDocumentsDirectory();
+    String ruta = documentosApp.path;
+    return ruta;
   }
 }

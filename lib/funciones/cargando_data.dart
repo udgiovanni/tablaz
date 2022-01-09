@@ -157,7 +157,6 @@ class FuncionesGeneralesTablaZ {
     ContratoType contratoData = ContratoType();
     List<String> contratoLinea = data.split('|');
     try {
-      int cuentaContrato = int.parse(contratoLinea[1]);
       contratoData.VKONTO = contratoLinea[1].trim(); //Cuenta Contrato
       contratoData.VERTRAG = contratoLinea[2].trim(); //Contrato
       contratoData.SPARTE = contratoLinea[9].trim(); //Sector

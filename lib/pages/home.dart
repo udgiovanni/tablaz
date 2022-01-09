@@ -1,7 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ import 'package:tablaz/ui/encabezado.dart';
 import 'package:csv/csv.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key, required this.title}) : super(key: key);
+  const Home({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   _HomeState createState() => _HomeState();
@@ -106,7 +105,7 @@ class _HomeState extends State<Home> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            CreacionTablaZ()));
+                                            const CreacionTablaZ()));
                               },
                             ),
                             const SizedBox(height: 5),

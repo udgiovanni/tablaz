@@ -286,6 +286,7 @@ class SpoolVigenciaActual {
 class SpoolDataTable {
   late List<String> dataSpool;
   late String nombreTabla;
+  late String ruta;
   Map<String, dynamic> toMap() {
     return {'dataSpool': dataSpool, 'nombreTabla': nombreTabla};
   }
@@ -325,5 +326,13 @@ class ContratoType {
       'EINZDAT': EINZDAT,
       'AUSZDAT': AUSZDAT
     };
+  }
+}
+
+class DatatoDB {
+  late List<String> data;
+  late String ruta;
+  Map<String, dynamic> toMap() {
+    return {'data': data, 'ruta': ruta};
   }
 }
