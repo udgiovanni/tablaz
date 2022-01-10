@@ -877,7 +877,7 @@ class FuncionesLoadDatabase {
       ZZCORREO
         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     ''');
-    for (int i = 0; i <= dataSpool.dataSpool.length - 1; i++) {
+    for (int i = 1; i <= dataSpool.dataSpool.length - 1; i++) {
       String linea = dataSpool.dataSpool[i];
       SpoolVigenciaActual spoolVig = fz.dataSpoolLoad(linea);
       insertDataSpool.execute([
@@ -1485,6 +1485,7 @@ class FuncionesLoadDatabase {
           "FAC-I_ZWSTAND" AS "FAC_LECTURA_ACT", "FAC-I_ZWSTVOR" AS "FAC_LECTURA_ANT"
         FROM "TABLA_Z" AS TZ;	 
       COMMIT;
+      VACUUM;
       ''');
   }
 }

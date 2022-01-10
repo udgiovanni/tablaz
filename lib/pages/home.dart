@@ -109,59 +109,6 @@ class _HomeState extends State<Home> {
                               },
                             ),
                             const SizedBox(height: 5),
-                            ListTile(
-                              leading: const Icon(
-                                Icons.folder_open,
-                                size: 50,
-                                color: Colors.white,
-                              ),
-                              title: Text('Simplificación SPOOL Tabla Z',
-                                  style: titulo3),
-                              subtitle: Text(
-                                  'Simplifica la cantidad de datos almacenadas en el SPOOL para la creación de Tabla Z',
-                                  style: cuerpo),
-                              onTap: () async {
-                                String? carpetaDataSpool =
-                                    await FilePicker.platform.getDirectoryPath(
-                                        dialogTitle:
-                                            'Seleccionar Carpeta Datos Spool');
-                                if (carpetaDataSpool == null) {
-                                  showToast('No se selecciono Ninguna Carpeta',
-                                      context: context);
-                                } else {
-                                  setState(() {
-                                    cargando = true;
-                                    mensaje = 'Simplificando Spool';
-                                  });
-                                  SimplificaSpoolTZ simplificaSpoolTZ =
-                                      SimplificaSpoolTZ();
-                                  List<List<dynamic>> dataSpool = await compute(
-                                      simplificaSpoolTZ.spoolTZ,
-                                      carpetaDataSpool);
-                                  String csv = const ListToCsvConverter()
-                                      .convert(dataSpool);
-                                  showToast(
-                                      'Simplificación de SPOOL Finalizada',
-                                      context: context,
-                                      duration: const Duration(seconds: 20));
-                                  String? outputFile = await FilePicker.platform
-                                      .saveFile(
-                                          dialogTitle:
-                                              'Seleccione La ruta de Salida:',
-                                          fileName: 'SpoolReducido.csv');
-                                  if (outputFile == null) {
-                                    // User canceled the picker
-                                  } else {
-                                    final File csvExport =
-                                        File(outputFile.toString());
-                                    await csvExport.writeAsString(csv);
-                                  }
-                                  setState(() {
-                                    cargando = false;
-                                  });
-                                }
-                              },
-                            )
                           ],
                         ),
                       ),
@@ -180,10 +127,67 @@ class _HomeState extends State<Home> {
                       height: 550,
                       child: Column(
                         children: [
+                          const SizedBox(height: 7),
                           Text(
-                            'Documentación',
+                            'Acceso Rápido',
                             style: titulo,
                           ),
+                          const Divider(color: Colors.white),
+                          const Text('Utilidades',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14)),
+                          ListTile(
+                            leading: const Icon(
+                              Icons.folder_open,
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                            title: Text('Simplificación SPOOL Tabla Z',
+                                style: titulo3),
+                            subtitle: Text(
+                                'Simplifica la cantidad de datos almacenadas en el SPOOL para la creación de Tabla Z',
+                                style: cuerpo),
+                            onTap: () async {
+                              String? carpetaDataSpool =
+                                  await FilePicker.platform.getDirectoryPath(
+                                      dialogTitle:
+                                          'Seleccionar Carpeta Datos Spool');
+                              if (carpetaDataSpool == null) {
+                                showToast('No se selecciono Ninguna Carpeta',
+                                    context: context);
+                              } else {
+                                setState(() {
+                                  cargando = true;
+                                  mensaje = 'Simplificando Spool';
+                                });
+                                SimplificaSpoolTZ simplificaSpoolTZ =
+                                    SimplificaSpoolTZ();
+                                List<List<dynamic>> dataSpool = await compute(
+                                    simplificaSpoolTZ.spoolTZ,
+                                    carpetaDataSpool);
+                                String csv = const ListToCsvConverter()
+                                    .convert(dataSpool);
+                                showToast('Simplificación de SPOOL Finalizada',
+                                    context: context,
+                                    duration: const Duration(seconds: 20));
+                                String? outputFile = await FilePicker.platform
+                                    .saveFile(
+                                        dialogTitle:
+                                            'Seleccione La ruta de Salida:',
+                                        fileName: 'SpoolReducido.csv');
+                                if (outputFile == null) {
+                                  // User canceled the picker
+                                } else {
+                                  final File csvExport =
+                                      File(outputFile.toString());
+                                  await csvExport.writeAsString(csv);
+                                }
+                                setState(() {
+                                  cargando = false;
+                                });
+                              }
+                            },
+                          )
                         ],
                       ),
                     ),

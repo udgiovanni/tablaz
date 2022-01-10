@@ -550,8 +550,6 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                 TextButton(
                   onPressed: () async {
                     JoinTxtData jTXT = JoinTxtData();
-                    //Ruta Database
-                    String databasePath = await rutaDB();
                     if (datosSap == '' ||
                         datosV1 == '' ||
                         datosV2 == '' ||
