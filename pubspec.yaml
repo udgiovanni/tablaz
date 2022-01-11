@@ -44,7 +44,9 @@ dependencies:
   csv: ^5.0.1
   shell: ^2.0.0
   shared_preferences: ^2.0.11
-
+  google_fonts: ^2.2.0
+  flare_flutter: ^3.0.2
+  url_launcher: ^6.0.18
   
 
 dev_dependencies:
