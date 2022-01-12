@@ -1,5 +1,6 @@
 // ignore_for_file: dead_code, sized_box_for_whitespace
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,7 @@ import 'package:tablaz/funciones/funciones_join_txt.dart';
 import 'package:tablaz/funciones/funciones_load_db.dart';
 import 'package:tablaz/objetos/objetos.dart';
 import 'package:tablaz/ui/encabezado.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class CreacionTablaZ extends StatefulWidget {
   const CreacionTablaZ({Key? key}) : super(key: key);
@@ -944,6 +946,16 @@ class _CreacionTablaZState extends State<CreacionTablaZ> {
                           //Generando Uniones de la Tabla Z
                           try {
                             String ruta = await rutaDB();
+                            DatatoDB refBarrios = DatatoDB();
+                            refBarrios.ruta = ruta;
+                            LineSplitter lineasDataCargada =
+                                const LineSplitter();
+                            String data = await rootBundle
+                                .loadString('assets/REF_BARRIO.txt');
+                            List<String> lineasCargadas =
+                                lineasDataCargada.convert(data);
+                            refBarrios.data = lineasCargadas;
+                            await compute(fzLoadDB.loadDataBarrios, refBarrios);
                             await compute(fzLoadDB.crearTablaZ, ruta);
                             setState(() {
                               mensaje =

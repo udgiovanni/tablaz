@@ -2,7 +2,8 @@ import 'package:process_run/shell.dart';
 
 class JoinTxtData {
   Future<void> joinReportesSAP(String rutaDatosSAP) async {
-    var shell = Shell();
+    var shell = Shell(
+    );
     await shell.run('''
       ${rutaDatosSAP.substring(0, 2)}
       CD "$rutaDatosSAP"
@@ -13,7 +14,7 @@ class JoinTxtData {
       COPY "$rutaDatosSAP\\PARTNER*.TXT" /y "$rutaDatosSAP\\TABLE_PARTNER.TXT"
       COPY "$rutaDatosSAP\\OBJC*.TXT" /y "$rutaDatosSAP\\TABLE_OBJCON.TXT"
       COPY "$rutaDatosSAP\\PREM*.TXT" /y "$rutaDatosSAP\\TABLE_PREMISE.TXT"
-      COPY "$rutaDatosSAP\\EVE*.TXT" /y "$rutaDatosSAP\\TABLE_EVER.TXT"
+      COPY "$rutaDatosSAP\\PRD*.TXT" /y "$rutaDatosSAP\\TABLE_EVER.TXT"
       DEL "$rutaDatosSAP\\ACCO*.TXT"
       DEL "$rutaDatosSAP\\DEV*.TXT"
       DEL "$rutaDatosSAP\\INSTL*.TXT"
@@ -21,7 +22,7 @@ class JoinTxtData {
       DEL "$rutaDatosSAP\\PARTNER*.TXT"
       DEL "$rutaDatosSAP\\OBJC*.TXT"
       DEL "$rutaDatosSAP\\PREM*.TXT"
-      DEL "$rutaDatosSAP\\EVE*.TXT"
+      DEL "$rutaDatosSAP\\PRD*.TXT"
       ''');
   }
 

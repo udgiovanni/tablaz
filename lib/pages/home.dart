@@ -1,8 +1,10 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tablaz/pages/procesos_masivos/creacion_tabla_z.dart';
@@ -250,5 +252,10 @@ class _HomeState extends State<Home> {
     setState(() {
       tablaZ = tablaZCreadaValidador;
     });
+  }
+
+  readTxtBarrios(String path) async {
+    String data = await rootBundle.loadString(path);
+    print(data);
   }
 }

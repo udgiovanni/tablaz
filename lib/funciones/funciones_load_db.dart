@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:tablaz/funciones/cargando_data.dart';
 import 'package:tablaz/objetos/objetos.dart';
 import 'package:sqlite3/sqlite3.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 //TXT a List de String para UTF-8
 class FuncionesLoadDatabase {
@@ -835,6 +836,42 @@ class FuncionesLoadDatabase {
     ''');
   }
 
+  //Cargando datos de Barrios
+  Future<void> loadDataBarrios(DatatoDB datatoDB) async {
+    final db = sqlite3.open('${datatoDB.ruta}\\database.sqlite3');
+    db.execute('''
+    BEGIN;
+    DROP TABLE IF EXISTS REF_BARRIO;
+    CREATE TABLE "REF_BARRIO" (
+      "COD_BARRIO"	TEXT,
+      "NME_BARRIO"	TEXT,
+      "NME_LOCALIDAD"	TEXT,
+      "NME_MUNICPIO"	TEXT,
+      "COD_LOCALIDAD" TEXT
+    );
+    COMMIT;
+    ''');
+    List<String> linean = [];
+    List<String> lineasCargadas = datatoDB.data;
+    for (int i = 0; i <= lineasCargadas.length - 1; i++) {
+      linean.add(lineasCargadas[i]);
+    }
+    final insertDataBarrios = db.prepare('''
+    INSERT INTO REF_BARRIO(
+      COD_BARRIO,
+      NME_BARRIO,
+      NME_LOCALIDAD,
+      NME_MUNICPIO,
+      COD_LOCALIDAD)
+      VALUES (?,?,?,?,?)
+    ''');
+    for (int i = 1; i <= linean.length - 1; i++) {
+      String dataLinea = linean[i].replaceAll('"', '');
+      List<String> data = dataLinea.split(';');
+      insertDataBarrios.execute([data[0], data[1], data[2], data[3], data[4]]);
+    }
+  }
+
   //Carga de Datos Spool
   Future<void> loadDataSpool(SpoolDataTable dataSpool) async {
     final db = sqlite3.open('${dataSpool.ruta}\\database.sqlite3');
@@ -1409,8 +1446,12 @@ class FuncionesLoadDatabase {
             GROUP BY OC."HAUS") AS T
       WHERE "TABLA_Z"."COB-HAUS" = T."HAUS"
         AND "TABLA_Z"."COB-STREET" IS NULL;
-
-        COMMIT;''');
+        UPDATE "TABLA_Z"
+     SET "OTR-LOCALIDAD" = T."COD_LOCALIDAD"
+      FROM "REF_BARRIO" AS T
+      WHERE "TABLA_Z"."COB-REGPOLIT" = T."COD_BARRIO"
+        AND "TABLA_Z"."OTR-LOCALIDAD" IS NULL;
+      COMMIT;''');
     db.execute('''
         BEGIN;
         DROP VIEW IF EXISTS VW_TABLAZ;
