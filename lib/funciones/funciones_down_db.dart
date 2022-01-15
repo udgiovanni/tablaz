@@ -5,7 +5,8 @@ class FuncionesDownDB {
     bool existenciaTablaZ;
     try {
       final db = sqlite3.open('$ruta\\database.sqlite3');
-      final ResultSet dataTablaZ = db.select('SELECT * FROM VW_TABLAZ;');
+      final ResultSet dataTablaZ =
+          db.select('SELECT * FROM VW_TABLAZ ORDER BY CTACTO ASC LIMIT 1;');
       existenciaTablaZ = true;
     } catch (e) {
       existenciaTablaZ = false;

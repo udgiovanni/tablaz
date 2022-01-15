@@ -33,19 +33,19 @@ class FuncionesGeneralesTablaZ {
 
   CuentaContratoType dataCuenta(String account) {
     CuentaContratoType result = CuentaContratoType();
-    result.VKONT = tryInt(account, 0, 12);
-    result.GPART = tryInt(account, 12, 22);
+    result.VKONT = tryStringCortar(account, 0, 12);
+    result.GPART = tryStringCortar(account, 12, 22);
     result.VKTYP = tryStringCortar(account, 22, 24);
     result.STREET = tryStringCortar(account, 24, 84);
     result.VKBEZ = tryStringCortar(account, 84, 119);
-    result.VKONA = tryInt(account, 119, 139);
+    result.VKONA = tryStringCortar(account, 119, 139);
     result.REGIOGR_CA_T = tryStringCortar(account, 139, 147);
     result.KTOKL = tryStringCortar(account, 147, 151);
-    result.KOFIZ_SD = tryInt(account, 151, 153);
-    result.ABWVK = tryInt(account, 153, 165);
+    result.KOFIZ_SD = tryStringCortar(account, 151, 153);
+    result.ABWVK = tryStringCortar(account, 153, 165);
     result.FORMKEY = tryStringCortar(account, 165, 195);
     result.ZZDIR = tryStringCortar(account, 195, 255);
-    result.IKEY = tryInt(account, 255, 257);
+    result.IKEY = tryStringCortar(account, 255, 257);
     result.ZPORTION = tryStringCortar(account, 257, 265);
     result.REGIOGROUP = tryStringFin(account, 265);
     return result;
@@ -53,11 +53,11 @@ class FuncionesGeneralesTablaZ {
 
   AltaInstalacionType dataAltaInstalacion(String altaInstalacion) {
     AltaInstalacionType result = AltaInstalacionType();
-    result.VERTRAG = tryInt(altaInstalacion, 0, 10);
-    result.ANLAGE = tryInt(altaInstalacion, 10, 20);
-    result.VKONTO = tryInt(altaInstalacion, 20, 32);
-    result.SPARTE = tryInt(altaInstalacion, 32, 34);
-    result.STAGRUVER = tryInt(altaInstalacion, 34, 36);
+    result.VERTRAG = tryStringCortar(altaInstalacion, 0, 10);
+    result.ANLAGE = tryStringCortar(altaInstalacion, 10, 20);
+    result.VKONTO = tryStringCortar(altaInstalacion, 20, 32);
+    result.SPARTE = tryStringCortar(altaInstalacion, 32, 34);
+    result.STAGRUVER = tryStringCortar(altaInstalacion, 34, 36);
     result.EINZDAT = tryStringCortar(altaInstalacion, 36, 44);
     result.AUSZDAT = tryStringFin(altaInstalacion, 44);
     return result;
@@ -65,7 +65,7 @@ class FuncionesGeneralesTablaZ {
 
   InterlocutorComercialType dataInterlocutorComercial(String data) {
     InterlocutorComercialType interlocutor = InterlocutorComercialType();
-    interlocutor.PARTNER = tryInt(data, 0, 10);
+    interlocutor.PARTNER = tryStringCortar(data, 0, 10);
     interlocutor.NAME_ORG1 = tryStringCortar(data, 10, 50);
     interlocutor.BU_SORT1 = tryStringCortar(data, 50, 70);
     interlocutor.STREET = tryStringCortar(data, 70, 130);
@@ -104,42 +104,42 @@ class FuncionesGeneralesTablaZ {
 
   PuntoSuministroType dataPuntoSuministro(String data) {
     PuntoSuministroType puntoSumin = PuntoSuministroType();
-    puntoSumin.VSTELLE = tryInt(data, 0, 10);
-    puntoSumin.HAUS = tryInt(data, 10, 40);
-    puntoSumin.VBSART = tryInt(data, 40, 48);
+    puntoSumin.VSTELLE = tryStringCortar(data, 0, 10);
+    puntoSumin.HAUS = tryStringCortar(data, 10, 40);
+    puntoSumin.VBSART = tryStringCortar(data, 40, 48);
     puntoSumin.HAUS_NUM2 = tryStringCortar(data, 48, 88);
-    puntoSumin.FLOOR = tryInt(data, 88, 98);
-    puntoSumin.ROOMNUMBER = tryInt(data, 98, 108);
+    puntoSumin.FLOOR = tryStringCortar(data, 88, 98);
+    puntoSumin.ROOMNUMBER = tryStringCortar(data, 98, 108);
     puntoSumin.STR_ERG2 = tryStringCortar(data, 108, 148);
     puntoSumin.STR_ERG4 = tryStringCortar(data, 148, 188);
     puntoSumin.LGZUSATZ = tryStringCortar(data, 188, 228);
-    puntoSumin.ANZPERS = tryInt(data, 228, 232);
+    puntoSumin.ANZPERS = tryStringCortar(data, 228, 232);
     return puntoSumin;
   }
 
   InstalacionType dataInstalacion(String dataI) {
     String data = dataI.replaceAll(',', '.');
     InstalacionType instalacionData = InstalacionType();
-    instalacionData.ANLAGE = tryInt(data, 0, 10);
-    instalacionData.VSTELLE = tryInt(data, 10, 20);
+    instalacionData.ANLAGE = tryStringCortar(data, 0, 10);
+    instalacionData.VSTELLE = tryStringCortar(data, 10, 20);
     instalacionData.SPARTE = tryStringCortar(data, 20, 22);
     instalacionData.AB = tryStringCortar(data, 22, 30);
     instalacionData.BIS = tryStringCortar(data, 30, 38);
-    instalacionData.AKLASSE = tryInt(data, 38, 42);
+    instalacionData.AKLASSE = tryStringCortar(data, 38, 42);
     instalacionData.TARIFTYP = tryStringCortar(data, 42, 52);
     instalacionData.BRANCHE = tryStringCortar(data, 52, 62);
     instalacionData.ABLEINH = tryStringCortar(data, 62, 70);
-    instalacionData.ANLART = tryInt(data, 70, 74);
-    instalacionData.TEMP_AREA = tryInt(data, 74, 82);
-    instalacionData.KONDIGR = tryInt(data, 82, 92);
-    instalacionData.TARIFART = tryInt(data, 92, 100);
+    instalacionData.ANLART = tryStringCortar(data, 70, 74);
+    instalacionData.TEMP_AREA = tryStringCortar(data, 74, 82);
+    instalacionData.KONDIGR = tryStringCortar(data, 82, 92);
+    instalacionData.TARIFART = tryStringCortar(data, 92, 100);
     return instalacionData;
   }
 
   AparatoType dataMedidor(String data) {
     AparatoType medidorData = AparatoType();
-    medidorData.EQUNR = tryInt(data, 0, 18);
-    medidorData.VSTELLE = tryInt(data, 18, 28);
+    medidorData.EQUNR = tryStringCortar(data, 0, 18);
+    medidorData.VSTELLE = tryStringCortar(data, 18, 28);
     medidorData.HERST = tryStringCortar(data, 28, 58);
     medidorData.MATNR = tryStringCortar(data, 58, 76);
     medidorData.ILOAN = tryStringCortar(data, 76, 80);

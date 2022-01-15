@@ -144,8 +144,6 @@ class FuncionesLoadDatabase {
     SET ZPORTION = NULL WHERE ZPORTION = '';
     UPDATE ACCOUNT
     SET REGIOGROUP = NULL WHERE REGIOGROUP = '';
-    DELETE FROM ACCOUNT
-    WHERE VKONT IS NULL;
     COMMIT;
     ''');
     inserAccountData.dispose();
@@ -270,8 +268,6 @@ class FuncionesLoadDatabase {
     SET CITY1= NULL WHERE CITY1= '';
     UPDATE PARTNER
     SET REGION= NULL WHERE REGION= '';
-    DELETE FROM PARTNER
-    WHERE PARTNER IS NULL;
     COMMIT;
     ''');
     insertInterlocutorData.dispose();
@@ -329,8 +325,6 @@ class FuncionesLoadDatabase {
     ''');
     db.execute('''
     BEGIN;
-    DELETE FROM "MOVE-IN"
-    WHERE VERTRAG ='';
     UPDATE "MOVE-IN"
     SET ANLAGE = NULL WHERE ANLAGE = '';
     UPDATE "MOVE-IN"
@@ -417,7 +411,6 @@ class FuncionesLoadDatabase {
     db.execute('''COMMIT;''');
     db.execute('''
     BEGIN;
-    DELETE FROM DEVICE WHERE EQUNR = '';
     UPDATE DEVICE
     SET VSTELLE = NULL WHERE VSTELLE = '';
     UPDATE DEVICE
@@ -519,8 +512,6 @@ class FuncionesLoadDatabase {
     ''');
     db.execute('''
     BEGIN;
-    DELETE FROM INSTLN
-    WHERE ANLAGE = '';
     UPDATE INSTLN
     SET VSTELLE = NULL WHERE VSTELLE = '';
     UPDATE INSTLN
@@ -618,7 +609,6 @@ class FuncionesLoadDatabase {
     ''');
     db.execute('''
     BEGIN;
-    DELETE FROM CONNOBJ WHERE HAUS = '';
     UPDATE CONNOBJ
     SET STREET = NULL WHERE STREET = '';
     UPDATE CONNOBJ
@@ -703,7 +693,6 @@ class FuncionesLoadDatabase {
     ''');
     db.execute('''
     BEGIN;
-    DELETE FROM PREMISE WHERE VSTELLE = '';
     UPDATE PREMISE
     SET HAUS = NULL WHERE HAUS = '';
     UPDATE PREMISE
@@ -805,7 +794,6 @@ class FuncionesLoadDatabase {
     ''');
     db.execute('''
     BEGIN;
-    DELETE FROM EVER WHERE VKONTO = '';
     UPDATE EVER
     SET VERTRAG = NULL WHERE VERTRAG = '';
     UPDATE EVER
@@ -938,7 +926,6 @@ class FuncionesLoadDatabase {
     COMMIT;
     ''');
     db.execute('''
-    DELETE FROM ${dataSpool.nombreTabla} WHERE ZZCTACONTR IS NULL;
     UPDATE ${dataSpool.nombreTabla} SET ZZDIRENVIO = NULL WHERE ZZDIRENVIO = '';
     UPDATE ${dataSpool.nombreTabla} SET ZZDIAMEDID = NULL WHERE ZZDIAMEDID = '';
     UPDATE ${dataSpool.nombreTabla} SET ZZLECACTUAL = NULL WHERE ZZLECACTUAL = '';
@@ -959,7 +946,72 @@ class FuncionesLoadDatabase {
     //Database
     final db = sqlite3.open('$ruta\\database.sqlite3');
     db.execute('''
-      BEGIN;
+    BEGIN;
+     UPDATE "ACCOUNT"
+      SET "VKONT" = REPLACE(LTRIM(REPLACE(TRIM("VKONT"), "0", " ")), " ", "0"),
+          "GPART" = REPLACE(LTRIM(REPLACE(TRIM("GPART"), "0", " ")), " ", "0"),
+      "VKONA" = REPLACE(LTRIM(REPLACE(TRIM("VKONA"), "0", " ")), " ", "0"),
+      "KTOKL" = REPLACE(LTRIM(REPLACE(TRIM("KTOKL"), "0", " ")), " ", "0"),
+      "KOFIZ_SD" = REPLACE(LTRIM(REPLACE(TRIM("KOFIZ_SD"), "0", " ")), " ", "0")
+    WHERE TRIM("VKONT") LIKE "0%"
+      OR TRIM("GPART") LIKE "0%"
+    OR TRIM("VKONA") LIKE "0%"
+    OR TRIM("KTOKL") LIKE "0%"
+    OR TRIM("KOFIZ_SD") LIKE "0%";
+
+    UPDATE "CONNOBJ"
+      SET "HAUS" = REPLACE(LTRIM(REPLACE(TRIM("HAUS"), "0", " ")), " ", "0"),
+          "REGPOLIT" = REPLACE(LTRIM(REPLACE(TRIM("REGPOLIT"), "0", " ")), " ", "0")
+    WHERE TRIM("HAUS") LIKE "0%"
+      OR TRIM("REGPOLIT") LIKE "0%";
+
+    UPDATE "DEVICE"
+      SET "VSTELLE" = REPLACE(LTRIM(REPLACE(TRIM("VSTELLE"), "0", " ")), " ", "0"),
+          "EQUNR" = REPLACE(LTRIM(REPLACE(TRIM("EQUNR"), "0", " ")), " ", "0")
+    WHERE TRIM("VSTELLE") LIKE "0%"
+      OR TRIM("EQUNR") LIKE "0%";
+
+    UPDATE "EVER"
+      SET "VKONTO" = REPLACE(LTRIM(REPLACE(TRIM("VKONTO"), "0", " ")), " ", "0"),
+          "VERTRAG" = REPLACE(LTRIM(REPLACE(TRIM("VERTRAG"), "0", " ")), " ", "0"),
+      "EINZDAT" = SUBSTR("EINZDAT", 7, 4) || SUBSTR("EINZDAT", 4, 2) || SUBSTR("EINZDAT", 1, 2)
+    WHERE TRIM("VKONTO") LIKE "0%"
+      OR TRIM("VERTRAG") LIKE "0%"
+    OR "EINZDAT" LIKE "%.%";
+
+    UPDATE "INSTLN"
+      SET "ANLAGE" = REPLACE(LTRIM(REPLACE(TRIM("ANLAGE"), "0", " ")), " ", "0"),
+          "VSTELLE" = REPLACE(LTRIM(REPLACE(TRIM("VSTELLE"), "0", " ")), " ", "0"),
+      "ANLART" = REPLACE(LTRIM(REPLACE(TRIM("ANLART"), "0", " ")), " ", "0")
+    WHERE TRIM("ANLAGE") LIKE "0%"
+      OR TRIM("VSTELLE") LIKE "0%"
+    OR TRIM("ANLART") LIKE "0%";
+    
+    UPDATE "MOVE-IN"
+      SET "VKONTO" = REPLACE(LTRIM(REPLACE(TRIM("VKONTO"), "0", " ")), " ", "0"),
+          "ANLAGE" = REPLACE(LTRIM(REPLACE(TRIM("ANLAGE"), "0", " ")), " ", "0"),
+        "VERTRAG" = REPLACE(LTRIM(REPLACE(TRIM("VERTRAG"), "0", " ")), " ", "0")
+    WHERE TRIM("VKONTO") LIKE "0%"
+      OR TRIM("ANLAGE") LIKE "0%"
+      OR TRIM("VERTRAG") LIKE "0%";
+
+    UPDATE "REF_BARRIO"
+      SET "COD_BARRIO" = REPLACE(LTRIM(REPLACE(TRIM("COD_BARRIO"), "0", " ")), " ", "0")
+    WHERE TRIM("COD_BARRIO") LIKE "0%";
+    
+    UPDATE "PREMISE"
+      SET "VSTELLE" = REPLACE(LTRIM(REPLACE(TRIM("VSTELLE"), "0", " ")), " ", "0")
+    WHERE TRIM("VSTELLE") LIKE "0%";
+
+    UPDATE "PARTNER"
+      SET "PARTNER" = REPLACE(LTRIM(REPLACE(TRIM("PARTNER"), "0", " ")), " ", "0")
+    WHERE TRIM("PARTNER") LIKE "0%";
+
+    DELETE FROM ACCOUNT WHERE VKONT IS NULL;
+      COMMIT;
+    ''');
+    db.execute('''
+      BEGIN;      
       DROP TABLE IF EXISTS "TABLA_Z";
         CREATE TABLE "TABLA_Z" (
         "ACC-VKONT"	TEXT NOT NULL,
